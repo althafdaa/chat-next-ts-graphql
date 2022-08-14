@@ -18,11 +18,11 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   };
 }
 
-const Home: NextPage<HomePageProps> = ({ token }) => {
+const Home: NextPage<HomePageProps> = () => {
   return (
     <Box minH="100vh" w={'100%'} py="1rem" display={'flex'} as="main">
       <Head>
-        <title>Chat Grahph | Fullstack App</title>
+        <title>Chat Grahph | Chat Graph</title>
         <meta name="description" content="Created by @althafadaa" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

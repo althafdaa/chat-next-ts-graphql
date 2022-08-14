@@ -17,7 +17,7 @@ export const LoginSchema = Yup.object().shape({
   userName: Yup.string().required('Username is required'),
   password: Yup.string()
     .min(8, 'Password minimum 8 characters')
-    .required('Password is requried'),
+    .required('Password is required'),
 });
 
 export const parseErrorMsg = (error: object) => {

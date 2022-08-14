@@ -9,6 +9,7 @@ import { loginResolver } from '../resolvers/auth/login';
 import { registerResolver } from '../resolvers/auth/register';
 import { getUsers } from '../resolvers/auth/getUsers';
 import { Kind } from 'graphql';
+import { getUser } from '../resolvers/auth/getUser';
 
 export const DateScalar = scalarType({
   name: 'Date',
@@ -37,6 +38,24 @@ export const User = objectType({
     t.string('firstName');
     t.string('lastName');
     t.string('userName');
+  },
+});
+
+export const UserByIdInput = inputObjectType({
+  name: 'UserByIdInput',
+  definition: (t) => {
+    t.nonNull.string('id');
+  },
+});
+
+export const UserById = extendType({
+  type: 'Query',
+  definition: (t) => {
+    t.field('UserById', {
+      type: User,
+      args: { data: nonNull(UserByIdInput) },
+      resolve: getUser,
+    });
   },
 });
 

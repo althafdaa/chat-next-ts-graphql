@@ -39,6 +39,7 @@ type Mutation {
 }
 
 type Query {
+  UserById(data: UserByIdInput!): User
   Users: [User]
   msgBetweenUser(data: msgBetweenUserInput!): [Message]
 }
@@ -59,6 +60,10 @@ type User {
   id: String!
   lastName: String
   userName: String
+}
+
+input UserByIdInput {
+  id: String!
 }
 
 input msgBetweenUserInput {
