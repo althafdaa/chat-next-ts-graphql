@@ -16,11 +16,11 @@ import { useFormik } from 'formik';
 import { AnimatePresence, motion } from 'framer-motion';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import * as Yup from 'yup';
 import Link from 'next/link';
 import { useMutation } from '@apollo/client';
 import { REGISTER_USER } from '@/client/graphquery/mutation';
 import { useRouter } from 'next/router';
+import { parseErrorMsg, RegisterSchema } from '@/utils/validation';
 
 interface FormikValuesType {
   userName: string;
@@ -32,7 +32,7 @@ interface FormikValuesType {
 }
 
 const RegisterPage: NextPage = () => {
-  const [registerUser, { data, error }] = useMutation(REGISTER_USER);
+  const [registerUser] = useMutation(REGISTER_USER);
   const toast = useToast();
   const router = useRouter();
 
@@ -50,8 +50,7 @@ const RegisterPage: NextPage = () => {
 
       router.push('/login');
     } catch (error) {
-      const err = error as Error;
-      const errMsg = err.message || 'Something went wrong';
+      const errMsg = parseErrorMsg(error as Error);
       toast({
         position: 'top-right',
         title: 'Registration Failed',
@@ -62,19 +61,6 @@ const RegisterPage: NextPage = () => {
       });
     }
   };
-
-  const RegisterSchema = Yup.object().shape({
-    email: Yup.string().email().required('Email is required'),
-    userName: Yup.string().required('Username is required'),
-    firstName: Yup.string().required('First name is required'),
-    lastName: Yup.string().required('Last name is required'),
-    password: Yup.string()
-      .min(8, 'Password minimum 8 characters')
-      .required('Password is required'),
-    confirmPassword: Yup.string()
-      .required('Please retype your password.')
-      .oneOf([Yup.ref('password')], 'Your passwords do not match.'),
-  });
 
   const formik = useFormik({
     initialValues: {

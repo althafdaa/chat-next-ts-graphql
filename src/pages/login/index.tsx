@@ -1,6 +1,7 @@
 import LoginIcon from '@/assets/icons/LoginIcon';
 import { LOGIN_USER } from '@/client/graphquery/mutation';
 import BackButton from '@/components/BackButton';
+import { LoginSchema, parseErrorMsg } from '@/utils/validation';
 import { useMutation } from '@apollo/client';
 import {
   Box,
@@ -19,7 +20,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
-import * as Yup from 'yup';
 
 interface FormikValuesType {
   userName: string;
@@ -28,13 +28,6 @@ interface FormikValuesType {
 
 const LoginPage: NextPage = () => {
   const [loginUser] = useMutation(LOGIN_USER);
-
-  const LoginSchema = Yup.object().shape({
-    userName: Yup.string().required('Username is required'),
-    password: Yup.string()
-      .min(8, 'Password minimum 8 characters')
-      .required('Password is requried'),
-  });
 
   const handleSubmit = async (data: FormikValuesType) => {
     try {
@@ -51,8 +44,8 @@ const LoginPage: NextPage = () => {
         isClosable: true,
       });
     } catch (error) {
-      const err = error as Error;
-      const errMsg = err.message || 'Something went wrong';
+      const errMsg = parseErrorMsg(error as Error);
+
       toast({
         position: 'top-right',
         title: 'Login Failed',
