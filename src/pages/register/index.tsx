@@ -40,15 +40,15 @@ interface RegisterPageProps {
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const { chat_app_token } = nookies.get(ctx);
 
-  if (chat_app_token) {
-    return {
-      props: { token: chat_app_token },
-      redirect: {
-        permanent: false,
-        destination: '/',
-      },
-    };
-  }
+  // if (chat_app_token) {
+  //   return {
+  //     props: { token: chat_app_token },
+  //     redirect: {
+  //       permanent: false,
+  //       destination: '/',
+  //     },
+  //   };
+  // }
 
   return {
     props: { token: '' },

@@ -5,6 +5,15 @@
 """Date custom scalar type"""
 scalar Date
 
+type Follow {
+  createdAt: Date
+  followerId: String
+  following: String
+  followingId: String!
+  id: String!
+  user: User
+}
+
 input LoginInput {
   password: String!
   userName: String!
@@ -33,6 +42,7 @@ input MessageInput {
 }
 
 type Mutation {
+  followPeople(data: followPeopleInput!): Follow
   loginUser(data: LoginInput!): LoginResponse
   registerUser(data: RegisterInput!): User
   sendMessage(data: MessageInput!): Message
@@ -41,6 +51,7 @@ type Mutation {
 type Query {
   UserById(data: UserByIdInput!): User
   Users: [User]
+  getFollowing: [Follow]
   msgBetweenUser(data: msgBetweenUserInput!): [Message]
 }
 
@@ -64,6 +75,10 @@ type User {
 
 input UserByIdInput {
   id: String!
+}
+
+input followPeopleInput {
+  followingId: String!
 }
 
 input msgBetweenUserInput {
