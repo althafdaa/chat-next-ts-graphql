@@ -26,7 +26,7 @@ const Home: NextPage = () => {
             flexDir={'column'}
             as={motion.div}
             initial={{ y: -20, opacity: 0.5 }}
-            animate={{ y: 0, opacity: 1, transition: { duration: 1 } }}
+            animate={{ y: 1, opacity: 1, transition: { duration: 1 } }}
             exit={{ opacity: 0 }}
           >
             <Text fontWeight="700" textAlign={'center'} mb="2rem">

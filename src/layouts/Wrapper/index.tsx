@@ -1,6 +1,7 @@
 import { Center } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React, { FC, ReactNode } from 'react';
+import Footer from '../Footer';
 import Navigation from '../Navigation';
 
 type Props = {
@@ -16,6 +17,7 @@ const Wrapper: FC<Props> = ({ children }) => {
   return (
     <Center flexDir={'column'} position={'relative'} minH={'100vh'}>
       {children}
+      {hideNavigation && <Footer />}
       {!hideNavigation && <Navigation />}
     </Center>
   );
