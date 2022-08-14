@@ -1,0 +1,23 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2022": true
+  },
+  "extends": ["eslint:recommended", "next", "prettier"],
+  "rules": {
+    "@next/next/no-img-element": "off",
+    "react/display-name": "off",
+    "react/react-in-jsx-scope": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "no-console": "warn",
+    "no-useless-catch": "off"
+  }
+}
