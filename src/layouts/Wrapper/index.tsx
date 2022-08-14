@@ -1,4 +1,5 @@
-import { Center } from '@chakra-ui/react';
+import FollowingDrawer from '@/components/FollowingDrawer';
+import { Center, useDisclosure } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React, { FC, ReactNode } from 'react';
 import Footer from '../Footer';
@@ -9,6 +10,8 @@ type Props = {
 };
 
 const Wrapper: FC<Props> = ({ children }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const router = useRouter();
   const nonAuth = ['/', '/login', '/register'].some(
     (item) => item === router.asPath
@@ -20,12 +23,15 @@ const Wrapper: FC<Props> = ({ children }) => {
       flexDir="column"
       position={'relative'}
       minH={'100vh'}
-      bgColor="green.300"
+      bgColor={nonAuth ? 'green.300' : 'gray.100'}
     >
+      {!nonAuth && (
+        <FollowingDrawer isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
+      )}
       {children}
 
       {nonAuth && <Footer />}
-      {!nonAuth && <Navigation />}
+      {!nonAuth && <Navigation onOpen={onOpen} />}
     </Center>
   );
 };
