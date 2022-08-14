@@ -15,6 +15,7 @@ const Home: NextPage = () => {
       </Head>
       <AnimatePresence>
         <Box
+          as="main"
           minH={'100vh'}
           minW="100%"
           bgColor="green.300"

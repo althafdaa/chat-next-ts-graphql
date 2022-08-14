@@ -1,4 +1,5 @@
 import LoginIcon from '@/assets/icons/LoginIcon';
+import BackButton from '@/components/BackButton';
 import {
   Box,
   Button,
@@ -61,12 +62,19 @@ const LoginPage: NextPage = () => {
       </Head>
 
       <Box
+        as="main"
         minH={'100vh'}
         minW="100%"
         bgColor="green.300"
         display={'flex'}
         alignItems="center"
+        flexDir={'column'}
+        justifyContent={'center'}
+        position={'relative'}
       >
+        <Box position={'absolute'} top={'12px'} left={'8px'}>
+          <BackButton backTo="/" text="Back" />
+        </Box>
         <AnimatePresence>
           <Container display="flex" flexDir={'column'}>
             <Box mb={'1rem'} display="flex" flexDir={'column'} gap="0.5rem">
