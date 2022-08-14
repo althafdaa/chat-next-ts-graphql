@@ -17,23 +17,51 @@ import {
 } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import { AnimatePresence, motion } from 'framer-motion';
-import type { NextPage } from 'next';
+import type { GetServerSidePropsContext, NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import nookies, { setCookie } from 'nookies';
+import { useEffect } from 'react';
 
 interface FormikValuesType {
   userName: string;
   password: string;
 }
 
-const LoginPage: NextPage = () => {
+interface LoginPageProps {
+  token: string | null;
+}
+
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const { chat_app_token } = nookies.get(ctx);
+
+  if (chat_app_token) {
+    return {
+      props: { token: chat_app_token },
+      redirect: {
+        permanent: false,
+        destination: '/',
+      },
+    };
+  }
+
+  return {
+    props: { token: '' },
+  };
+}
+
+const LoginPage: NextPage<LoginPageProps> = ({ token }) => {
   const [loginUser] = useMutation(LOGIN_USER);
+  const router = useRouter();
 
   const handleSubmit = async (data: FormikValuesType) => {
     try {
       const res = await loginUser({
         variables: { data },
       });
+
+      setCookie(null, 'chat_app_token', res.data.loginUser.token);
 
       toast({
         position: 'top-right',
@@ -64,6 +92,10 @@ const LoginPage: NextPage = () => {
     onSubmit: handleSubmit,
     validationSchema: LoginSchema,
   });
+
+  useEffect(() => {
+    if (token) router.push('/');
+  }, [token]);
 
   return (
     <Box

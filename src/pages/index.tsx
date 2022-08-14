@@ -1,11 +1,24 @@
 import { Box, Button, Container, Flex, Text } from '@chakra-ui/react';
-import type { NextPage } from 'next';
+import type { GetServerSidePropsContext, NextPage } from 'next';
 import Head from 'next/head';
 import HomeImg from '@/assets/img/HomeImg.svg';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
+import nookies from 'nookies';
 
-const Home: NextPage = () => {
+interface HomePageProps {
+  token: string | null;
+}
+
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const { chat_app_token } = nookies.get(ctx);
+
+  return {
+    props: { token: chat_app_token ?? '' },
+  };
+}
+
+const Home: NextPage<HomePageProps> = ({ token }) => {
   return (
     <Box minH="100vh" w={'100%'} py="1rem" display={'flex'} as="main">
       <Head>
@@ -13,6 +26,7 @@ const Home: NextPage = () => {
         <meta name="description" content="Created by @althafadaa" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <AnimatePresence>
         <Box as="section" minW="100%" display={'flex'} alignItems="center">
           <Container

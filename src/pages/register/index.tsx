@@ -14,13 +14,15 @@ import {
 } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import { AnimatePresence, motion } from 'framer-motion';
-import type { NextPage } from 'next';
+import type { GetServerSidePropsContext, NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useMutation } from '@apollo/client';
 import { REGISTER_USER } from '@/client/graphquery/mutation';
 import { useRouter } from 'next/router';
 import { parseErrorMsg, RegisterSchema } from '@/utils/validation';
+import nookies from 'nookies';
+import { useEffect } from 'react';
 
 interface FormikValuesType {
   userName: string;
@@ -31,7 +33,29 @@ interface FormikValuesType {
   confirmPassword: string;
 }
 
-const RegisterPage: NextPage = () => {
+interface RegisterPageProps {
+  token: string | null;
+}
+
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const { chat_app_token } = nookies.get(ctx);
+
+  if (chat_app_token) {
+    return {
+      props: { token: chat_app_token },
+      redirect: {
+        permanent: false,
+        destination: '/',
+      },
+    };
+  }
+
+  return {
+    props: { token: '' },
+  };
+}
+
+const RegisterPage: NextPage<RegisterPageProps> = ({ token }) => {
   const [registerUser] = useMutation(REGISTER_USER);
   const toast = useToast();
   const router = useRouter();
@@ -74,6 +98,10 @@ const RegisterPage: NextPage = () => {
     onSubmit: handleSubmit,
     validationSchema: RegisterSchema,
   });
+
+  useEffect(() => {
+    if (token) router.push('/');
+  }, [token]);
 
   return (
     <Box minH="100vh" w={'100%'} py="1rem" display={'flex'} as="main">
