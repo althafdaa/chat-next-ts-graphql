@@ -9,6 +9,7 @@ import {
   Heading,
   Input,
   Text,
+  useToast,
   VStack,
 } from '@chakra-ui/react';
 import { useFormik } from 'formik';
@@ -17,9 +18,13 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import * as Yup from 'yup';
 import Link from 'next/link';
+import { useMutation } from '@apollo/client';
+import { REGISTER_USER } from '@/client/graphquery/mutation';
+import { useRouter } from 'next/router';
 
 interface FormikValuesType {
   userName: string;
+  email: string;
   firstName: string;
   lastName: string;
   password: string;
@@ -27,15 +32,39 @@ interface FormikValuesType {
 }
 
 const RegisterPage: NextPage = () => {
-  const handleSubmit = async (values: FormikValuesType) => {
+  const [registerUser, { data, error }] = useMutation(REGISTER_USER);
+  const toast = useToast();
+  const router = useRouter();
+
+  const handleSubmit = async (data: FormikValuesType) => {
     try {
-      console.log(values);
+      await registerUser({ variables: { data } });
+
+      toast({
+        position: 'top-right',
+        title: `Registration Success.`,
+        status: 'success',
+        duration: 1000,
+        isClosable: true,
+      });
+
+      router.push('/login');
     } catch (error) {
-      console.log(error);
+      const err = error as Error;
+      const errMsg = err.message || 'Something went wrong';
+      toast({
+        position: 'top-right',
+        title: 'Registration Failed',
+        description: errMsg,
+        status: 'error',
+        duration: 1000,
+        isClosable: true,
+      });
     }
   };
 
   const RegisterSchema = Yup.object().shape({
+    email: Yup.string().email().required('Email is required'),
     userName: Yup.string().required('Username is required'),
     firstName: Yup.string().required('First name is required'),
     lastName: Yup.string().required('Last name is required'),
@@ -49,6 +78,7 @@ const RegisterPage: NextPage = () => {
 
   const formik = useFormik({
     initialValues: {
+      email: '',
       userName: '',
       firstName: '',
       lastName: '',
@@ -100,6 +130,28 @@ const RegisterPage: NextPage = () => {
                 boxShadow="md"
               >
                 <VStack minW={'100%'}>
+                  <FormControl>
+                    <FormLabel>Email</FormLabel>
+                    <Input
+                      name="email"
+                      onChange={formik.handleChange}
+                      value={formik.values.email}
+                      placeholder="Enter your email"
+                      type={'email'}
+                    ></Input>
+                    {formik.errors.email && formik.touched.email && (
+                      <Text
+                        fontSize="xs"
+                        color="red"
+                        as={motion.span}
+                        initial={{ opacity: 0.5, y: -5 }}
+                        animate={{ opacity: 1, y: 1 }}
+                        exit={{ opacity: 0 }}
+                      >
+                        {formik.errors.email}
+                      </Text>
+                    )}
+                  </FormControl>
                   <FormControl>
                     <FormLabel>Username</FormLabel>
                     <Input
