@@ -8,7 +8,7 @@ const Footer: FC<FooterProps> = () => {
 
   return (
     <>
-      <Box pt={'32px'}></Box>
+      <Box pt={'16px'}></Box>
       <Box as="footer" pb="0.5rem" position={'absolute'} bottom={'0'}>
         <Text fontSize={'xs'} as="span" color={'black'}>
           built by{' '}

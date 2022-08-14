@@ -1,5 +1,7 @@
 import LoginIcon from '@/assets/icons/LoginIcon';
+import { LOGIN_USER } from '@/client/graphquery/mutation';
 import BackButton from '@/components/BackButton';
+import { useMutation } from '@apollo/client';
 import {
   Box,
   Button,
@@ -25,6 +27,8 @@ interface FormikValuesType {
 }
 
 const LoginPage: NextPage = () => {
+  const [loginUser] = useMutation(LOGIN_USER);
+
   const LoginSchema = Yup.object().shape({
     userName: Yup.string().required('Username is required'),
     password: Yup.string()
@@ -32,14 +36,27 @@ const LoginPage: NextPage = () => {
       .required('Password is requried'),
   });
 
-  const handleSubmit = async (values: FormikValuesType) => {
+  const handleSubmit = async (data: FormikValuesType) => {
     try {
-      console.log(values);
-    } catch (error) {
-      console.log(error);
+      const res = await loginUser({
+        variables: { data },
+      });
+
       toast({
         position: 'top-right',
-        title: 'Something went wrong.',
+        title: `Login Success.`,
+        description: `Welcome ${res.data.loginUser.userName}`,
+        status: 'success',
+        duration: 1000,
+        isClosable: true,
+      });
+    } catch (error) {
+      const err = error as Error;
+      const errMsg = err.message || 'Something went wrong';
+      toast({
+        position: 'top-right',
+        title: 'Login Failed',
+        description: errMsg,
         status: 'error',
         duration: 1000,
         isClosable: true,
@@ -56,13 +73,20 @@ const LoginPage: NextPage = () => {
   });
 
   return (
-    <>
+    <Box
+      minH="100vh"
+      w={'100%'}
+      py="1rem"
+      display={'flex'}
+      as="main"
+      alignItems={'center'}
+    >
       <Head>
         <title>Login | Chat Graph</title>
       </Head>
 
       <Box
-        as="main"
+        as="section"
         minW="100%"
         display={'flex'}
         alignItems="center"
@@ -165,7 +189,7 @@ const LoginPage: NextPage = () => {
           </Container>
         </AnimatePresence>
       </Box>
-    </>
+    </Box>
   );
 };
 

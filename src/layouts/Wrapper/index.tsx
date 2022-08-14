@@ -1,4 +1,4 @@
-import { Box, Center } from '@chakra-ui/react';
+import { Center } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React, { FC, ReactNode } from 'react';
 import Footer from '../Footer';
@@ -17,15 +17,13 @@ const Wrapper: FC<Props> = ({ children }) => {
   return (
     <Center
       display={'flex'}
-      flexDir={'column'}
+      flexDir="column"
       position={'relative'}
-      alignItems="center"
       minH={'100vh'}
       bgColor="green.300"
     >
-      <Box as="main" w={'100%'} py="1rem">
-        {children}
-      </Box>
+      {children}
+
       {nonAuth && <Footer />}
       {!nonAuth && <Navigation />}
     </Center>

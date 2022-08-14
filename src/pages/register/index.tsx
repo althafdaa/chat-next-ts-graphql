@@ -60,13 +60,13 @@ const RegisterPage: NextPage = () => {
   });
 
   return (
-    <>
+    <Box minH="100vh" w={'100%'} py="1rem" display={'flex'} as="main">
       <Head>
         <title>Register | Chat Graph</title>
       </Head>
 
       <Box
-        as="main"
+        as="section"
         minW="100%"
         display={'flex'}
         flexDir={'column'}
@@ -241,7 +241,7 @@ const RegisterPage: NextPage = () => {
           </Container>
         </AnimatePresence>
       </Box>
-    </>
+    </Box>
   );
 };
 

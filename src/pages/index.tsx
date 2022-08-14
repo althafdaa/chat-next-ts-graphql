@@ -1,4 +1,4 @@
-import { Box, Button, Center, Container, Flex, Text } from '@chakra-ui/react';
+import { Box, Button, Container, Flex, Text } from '@chakra-ui/react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import HomeImg from '@/assets/img/HomeImg.svg';
@@ -7,14 +7,14 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 const Home: NextPage = () => {
   return (
-    <>
+    <Box minH="100vh" w={'100%'} py="1rem" display={'flex'} as="main">
       <Head>
         <title>Chat Grahph | Fullstack App</title>
         <meta name="description" content="Created by @althafadaa" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <AnimatePresence>
-        <Box as="main" minW="100%" display={'flex'} alignItems="center">
+        <Box as="section" minW="100%" display={'flex'} alignItems="center">
           <Container
             display="flex"
             flexDir={'column'}
@@ -63,7 +63,7 @@ const Home: NextPage = () => {
           </Container>
         </Box>
       </AnimatePresence>
-    </>
+    </Box>
   );
 };
 
