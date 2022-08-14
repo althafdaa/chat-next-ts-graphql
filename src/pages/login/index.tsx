@@ -63,20 +63,17 @@ const LoginPage: NextPage = () => {
 
       <Box
         as="main"
-        minH={'100vh'}
         minW="100%"
-        bgColor="green.300"
         display={'flex'}
         alignItems="center"
         flexDir={'column'}
         justifyContent={'center'}
         position={'relative'}
       >
-        <Box position={'absolute'} top={'12px'} left={'8px'}>
-          <BackButton backTo="/" text="Back" />
-        </Box>
         <AnimatePresence>
-          <Container display="flex" flexDir={'column'}>
+          <Container display="flex" flexDir={'column'} minH="100%">
+            <BackButton backTo="/" text="Home" />
+
             <Box mb={'1rem'} display="flex" flexDir={'column'} gap="0.5rem">
               <Heading color={'gray.700'}>
                 One more step to connect with others

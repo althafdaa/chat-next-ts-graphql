@@ -8,7 +8,6 @@ import {
   FormLabel,
   Heading,
   Input,
-  Link,
   Text,
   VStack,
 } from '@chakra-ui/react';
@@ -17,6 +16,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import * as Yup from 'yup';
+import Link from 'next/link';
 
 interface FormikValuesType {
   userName: string;
@@ -67,24 +67,20 @@ const RegisterPage: NextPage = () => {
 
       <Box
         as="main"
-        minH={'100vh'}
         minW="100%"
-        bgColor="green.300"
         display={'flex'}
         flexDir={'column'}
         alignItems="center"
         justifyContent={'center'}
         position={'relative'}
       >
-        <Box position={'absolute'} top={'12px'} left={'8px'}>
-          <BackButton backTo="/" text="Back" />
-        </Box>
-
         <AnimatePresence>
           <Container display="flex" flexDir={'column'}>
+            <BackButton backTo="/" text="Home" />
+
             <Box mb={'1rem'} display="flex" flexDir={'column'} gap="0.5rem">
               <Heading color={'gray.700'}>
-                One more step to connect with others
+                Hello, we need some of your confirmation
               </Heading>
               <Text fontSize={'xs'} color="gray.20" as={'span'}>
                 Get yourself into the latest tech of chat-app built with Next,
@@ -231,11 +227,13 @@ const RegisterPage: NextPage = () => {
                 </Button>
 
                 <Text fontSize={'xs'} as={'span'}>
-                  Haven&apos;t registered yet ?{' '}
-                  <Link href={'/register'}>
-                    <Text as={'span'} color="green.600" fontWeight={700}>
-                      Join Us
-                    </Text>
+                  Already have an account ?{' '}
+                  <Link href={'/login'} passHref>
+                    <a>
+                      <Text as={'span'} color="green.600" fontWeight={700}>
+                        Login
+                      </Text>
+                    </a>
                   </Link>
                 </Text>
               </VStack>

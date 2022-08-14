@@ -14,14 +14,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <AnimatePresence>
-        <Box
-          as="main"
-          minH={'100vh'}
-          minW="100%"
-          bgColor="green.300"
-          display={'flex'}
-          alignItems="center"
-        >
+        <Box as="main" minW="100%" display={'flex'} alignItems="center">
           <Container
             display="flex"
             flexDir={'column'}

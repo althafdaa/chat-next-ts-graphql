@@ -1,5 +1,5 @@
 import ChevronIcon from '@/assets/icons/Chevronicon';
-import { Box } from '@chakra-ui/react';
+import { Link as ChakraLink } from '@chakra-ui/react';
 import Link from 'next/link';
 import React, { FC } from 'react';
 
@@ -11,10 +11,10 @@ interface BackButtonProps {
 const BackButton: FC<BackButtonProps> = ({ text, backTo }) => {
   return (
     <Link href={backTo} passHref>
-      <Box as="button" display="flex" fontWeight={600}>
+      <ChakraLink display="flex" fontWeight={600} alignSelf="start">
         <ChevronIcon style={{ height: '24px' }} />
         {text}
-      </Box>
+      </ChakraLink>
     </Link>
   );
 };
