@@ -10,6 +10,7 @@ import { registerResolver } from '../resolvers/auth/register';
 import { getUsers } from '../resolvers/auth/getUsers';
 import { Kind } from 'graphql';
 import { getUser } from '../resolvers/auth/getUser';
+import { Follow } from './Follow';
 
 export const DateScalar = scalarType({
   name: 'Date',
@@ -38,6 +39,13 @@ export const User = objectType({
     t.string('firstName');
     t.string('lastName');
     t.string('userName');
+    t.list.field('following', {
+      type: Follow,
+      resolve: (parent, _args, ctx) => {
+        const { id } = parent;
+        return ctx.prisma.follow.findMany({ where: { followerId: id } });
+      },
+    });
   },
 });
 

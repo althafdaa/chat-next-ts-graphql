@@ -1,5 +1,8 @@
 import { objectType, extendType, inputObjectType, nonNull } from 'nexus';
-import { followPeopleResolver } from '../resolvers/following/followPeople';
+import {
+  followPeopleResolver,
+  unFollowPeopleResolver,
+} from '../resolvers/following/followPeople';
 import { getFollowingResolver } from '../resolvers/following/getFollowing';
 import { User } from './User';
 
@@ -46,6 +49,17 @@ export const followPeople = extendType({
       type: Follow,
       args: { data: nonNull(followPeopleInput) },
       resolve: followPeopleResolver,
+    });
+  },
+});
+
+export const unFollow = extendType({
+  type: 'Mutation',
+  definition: (t) => {
+    t.field('unFollow', {
+      type: Follow,
+      args: { data: nonNull(followPeopleInput) },
+      resolve: unFollowPeopleResolver,
     });
   },
 });

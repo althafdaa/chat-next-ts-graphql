@@ -46,6 +46,7 @@ type Mutation {
   loginUser(data: LoginInput!): LoginResponse
   registerUser(data: RegisterInput!): User
   sendMessage(data: MessageInput!): Message
+  unFollow(data: followPeopleInput!): Follow
 }
 
 type Query {
@@ -68,6 +69,7 @@ type User {
   createdAt: Date
   email: String
   firstName: String
+  following: [Follow]
   id: String!
   lastName: String
   userName: String
