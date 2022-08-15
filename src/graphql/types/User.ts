@@ -1,34 +1,9 @@
-import {
-  extendType,
-  inputObjectType,
-  nonNull,
-  objectType,
-  scalarType,
-} from 'nexus';
+import { extendType, inputObjectType, nonNull, objectType } from 'nexus';
 import { loginResolver } from '../resolvers/auth/login';
 import { registerResolver } from '../resolvers/auth/register';
 import { getUsers } from '../resolvers/auth/getUsers';
-import { Kind } from 'graphql';
 import { getUser } from '../resolvers/auth/getUser';
 import { Follow } from './Follow';
-
-export const DateScalar = scalarType({
-  name: 'Date',
-  asNexusMethod: 'date',
-  description: 'Date custom scalar type',
-  parseValue(value: any) {
-    return new Date(value);
-  },
-  serialize(value: any) {
-    return value.getTime();
-  },
-  parseLiteral(ast: any) {
-    if (ast.kind === Kind.INT) {
-      return new Date(ast.value);
-    }
-    return null;
-  },
-});
 
 export const User = objectType({
   name: 'User',
