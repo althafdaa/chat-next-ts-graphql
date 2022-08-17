@@ -2,7 +2,7 @@ import { Box } from '@chakra-ui/react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 
-const ChatsPage: NextPage = () => {
+const SearchPage: NextPage = () => {
   return (
     <Box
       minH="100vh"
@@ -16,9 +16,9 @@ const ChatsPage: NextPage = () => {
         <title>Chats | Chat Graph</title>
       </Head>
 
-      <main>ChatsPage</main>
+      <main>SearchPage</main>
     </Box>
   );
 };
 
-export default ChatsPage;
+export default SearchPage;

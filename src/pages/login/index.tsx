@@ -71,6 +71,8 @@ const LoginPage: NextPage<LoginPageProps> = ({ token }) => {
         duration: 1000,
         isClosable: true,
       });
+
+      router.push('/search');
     } catch (error) {
       const errMsg = parseErrorMsg(error as Error);
 

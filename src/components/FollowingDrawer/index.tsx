@@ -1,3 +1,5 @@
+import { GET_FOLLOWING } from '@/client/graphquery/query';
+import { useQuery } from '@apollo/client';
 import {
   Drawer,
   DrawerOverlay,
@@ -10,6 +12,7 @@ import {
   AccordionPanel,
   Box,
 } from '@chakra-ui/react';
+import { parseCookies } from 'nookies';
 import React, { FC } from 'react';
 import FollowingItem from '../FollowingItem';
 
@@ -19,7 +22,23 @@ interface FollowingDrawerProps {
   onClose: () => void;
 }
 
+interface User {
+  id: string;
+  userName: string;
+}
+
+interface FollowingType {
+  getFollowing: {
+    __typename: string;
+    user: User;
+  };
+}
+
 const FollowingDrawer: FC<FollowingDrawerProps> = ({ isOpen, onClose }) => {
+  const { data, loading } = useQuery(GET_FOLLOWING);
+
+  if (loading) return <div>Loading ....</div>;
+
   return (
     <Drawer placement={'left'} onClose={onClose} isOpen={isOpen}>
       <DrawerOverlay />
@@ -36,7 +55,9 @@ const FollowingDrawer: FC<FollowingDrawerProps> = ({ isOpen, onClose }) => {
                 </AccordionButton>
               </h2>
               <AccordionPanel pb={4}>
-                <FollowingItem />
+                {data.getFollowing.map((item: FollowingType, idx: number) => {
+                  return <FollowingItem item={item} key={idx} />;
+                })}
               </AccordionPanel>
             </AccordionItem>
           </Accordion>

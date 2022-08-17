@@ -2,9 +2,11 @@ import { Box } from '@chakra-ui/react';
 import React, { FC } from 'react';
 import PhotoPlaceholder from '@/assets/img/PhotoPlaceholder.png';
 
-interface FollowingItemProps {}
+interface FollowingItemProps {
+  item: object;
+}
 
-const FollowingItem: FC<FollowingItemProps> = () => {
+const FollowingItem: FC<FollowingItemProps> = ({ item }) => {
   return (
     <Box
       fontSize={'14px'}
@@ -22,7 +24,7 @@ const FollowingItem: FC<FollowingItemProps> = () => {
         src={PhotoPlaceholder.src}
         alt="photoprofile"
       />
-      Varkas
+      {item.user.userName}
     </Box>
   );
 };

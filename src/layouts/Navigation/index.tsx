@@ -1,4 +1,5 @@
 import ChatIcon from '@/assets/icons/ChatIcon';
+import SearchIcon from '@/assets/icons/SearchIcon';
 import UserIcon from '@/assets/icons/UserIcon';
 import { Box, Text } from '@chakra-ui/react';
 import Link from 'next/link';
@@ -38,20 +39,20 @@ const Navigation: React.FC<NavigationProps> = ({ onOpen }) => {
         </Text>
       </Box>
 
-      <Link href={'/chats'} passHref>
+      <Link href={'/search'} passHref>
         <a>
           <Box display={'flex'} flexDir={'column'} alignItems="center">
-            <ChatIcon
+            <SearchIcon
               style={{ height: '24px' }}
-              fill={router.asPath === '/chats' ? '#2D3748' : '#BEE3F8'}
+              fill={router.asPath === '/search' ? '#2D3748' : '#BEE3F8'}
             />
 
             <Text
               fontSize={'xs'}
-              color={router.asPath === '/chats' ? '#2D3748' : '#BEE3F8'}
-              fontWeight={router.asPath === '/chats' ? 700 : 400}
+              color={router.asPath === '/search' ? '#2D3748' : '#BEE3F8'}
+              fontWeight={router.asPath === '/search' ? 700 : 400}
             >
-              Messages
+              Search
             </Text>
           </Box>
         </a>
