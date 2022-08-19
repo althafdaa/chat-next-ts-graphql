@@ -21,3 +21,13 @@ export const REGISTER_USER = gql`
     }
   }
 `;
+
+export const LOGOUT = gql`
+  mutation Mutation {
+    logout {
+      id
+      userName
+      message
+    }
+  }
+`;

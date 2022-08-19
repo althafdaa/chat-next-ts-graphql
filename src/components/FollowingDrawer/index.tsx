@@ -21,20 +21,21 @@ interface FollowingDrawerProps {
   onClose: () => void;
 }
 
-interface User {
+interface getFollowingUsertype {
   id: string;
   userName: string;
 }
-
-interface FollowingType {
-  getFollowing: {
-    __typename: string;
-    user: User;
-  };
+export interface getFollowingFieldType {
+  __typename: string;
+  user: getFollowingUsertype;
+}
+interface getFollowingResponseType {
+  getFollowing: getFollowingFieldType[];
 }
 
 const FollowingDrawer: FC<FollowingDrawerProps> = ({ isOpen, onClose }) => {
-  const { data, loading, error } = useQuery(GET_FOLLOWING);
+  const { data, loading, error } =
+    useQuery<getFollowingResponseType>(GET_FOLLOWING);
 
   return (
     <Drawer placement={'left'} onClose={onClose} isOpen={isOpen}>
@@ -43,7 +44,7 @@ const FollowingDrawer: FC<FollowingDrawerProps> = ({ isOpen, onClose }) => {
         {error && <div>Something went wrong</div>}
         {loading && <div>...Loading</div>}
 
-        {data?.getFollowing?.length > 0 && (
+        {!loading && !error && (
           <DrawerBody px={'1rem'}>
             <Accordion defaultIndex={[0]} allowMultiple>
               <AccordionItem>
@@ -57,7 +58,7 @@ const FollowingDrawer: FC<FollowingDrawerProps> = ({ isOpen, onClose }) => {
                 </h2>
                 <AccordionPanel pb={4}>
                   {data?.getFollowing.map(
-                    (item: FollowingType, idx: number) => {
+                    (item: getFollowingFieldType, idx: number) => {
                       return <FollowingItem item={item} key={idx} />;
                     }
                   )}

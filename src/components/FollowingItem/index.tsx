@@ -1,9 +1,10 @@
 import { Box } from '@chakra-ui/react';
 import React, { FC } from 'react';
 import PhotoPlaceholder from '@/assets/img/PhotoPlaceholder.png';
+import { getFollowingFieldType } from '../FollowingDrawer';
 
 interface FollowingItemProps {
-  item: object;
+  item: getFollowingFieldType;
 }
 
 const FollowingItem: FC<FollowingItemProps> = ({ item }) => {
