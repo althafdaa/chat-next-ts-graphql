@@ -5,6 +5,8 @@ import { getUsers } from '../resolvers/auth/getUsers';
 import { getUser } from '../resolvers/auth/getUser';
 import { Follow } from './Follow';
 import { validateLoginResolver } from '../resolvers/auth/validateLogin';
+import { destroyCookie } from 'nookies';
+import { checkAuth } from '@/utils/checkAuth';
 
 export const User = objectType({
   name: 'User',
@@ -123,6 +125,39 @@ export const validateLogin = extendType({
     t.field('validateLogin', {
       type: validateLoginResponse,
       resolve: validateLoginResolver,
+    });
+  },
+});
+
+export const LogoutResponse = objectType({
+  name: 'LogoutResponse',
+  definition: (t) => {
+    t.string('id');
+    t.string('userName');
+    t.string('message');
+  },
+});
+
+export const logout = extendType({
+  type: 'Mutation',
+  definition: (t) => {
+    t.field('logout', {
+      type: LogoutResponse,
+      resolve: async (_parent, _args, ctx) => {
+        const userId = await checkAuth(ctx);
+        const user = await ctx.prisma.user.findUnique({
+          where: { id: userId },
+        });
+        if (!user) throw new Error("User doesn't exist");
+        destroyCookie({ res: ctx.res }, 'token', {
+          path: '/',
+        });
+        return {
+          id: userId,
+          userName: user.userName,
+          message: 'Logout success',
+        };
+      },
     });
   },
 });

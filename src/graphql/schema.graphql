@@ -28,6 +28,12 @@ type LoginResponse {
   userName: String
 }
 
+type LogoutResponse {
+  id: String
+  message: String
+  userName: String
+}
+
 type Message {
   createdAt: Date
   id: Int!
@@ -44,6 +50,7 @@ input MessageInput {
 type Mutation {
   followPeople(data: followPeopleInput!): Follow
   loginUser(data: LoginInput!): LoginResponse
+  logout: LogoutResponse
   registerUser(data: RegisterInput!): User
   sendMessage(data: MessageInput!): Message
   unFollow(data: followPeopleInput!): Follow

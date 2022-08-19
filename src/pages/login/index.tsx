@@ -21,7 +21,7 @@ import type { GetServerSidePropsContext, NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import nookies, { setCookie } from 'nookies';
+import nookies from 'nookies';
 import { useEffect } from 'react';
 
 interface FormikValuesType {
@@ -60,8 +60,6 @@ const LoginPage: NextPage<LoginPageProps> = ({ token }) => {
       const res = await loginUser({
         variables: { data },
       });
-
-      setCookie(null, 'chat_app_token', res.data.loginUser.token);
 
       toast({
         position: 'top-right',

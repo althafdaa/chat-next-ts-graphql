@@ -8,13 +8,21 @@ import nookies from 'nookies';
 
 interface HomePageProps {
   token: string | null;
+  isLoggedIn: boolean;
 }
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const { chat_app_token } = nookies.get(ctx);
+  const { token } = nookies.get(ctx);
+
+  if (!token) {
+    return {
+      props: { isLoggedIn: false, token: null },
+    };
+  }
 
   return {
-    props: { token: chat_app_token ?? '' },
+    props: { isLoggedIn: true, token: token },
+    redirect: { permanent: false, destination: '/search' },
   };
 }
 

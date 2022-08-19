@@ -7,7 +7,8 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext((_, { headers }) => {
-  const { chat_app_token: token } = parseCookies();
+  const token = parseCookies();
+
   return {
     headers: {
       ...headers,
@@ -19,6 +20,7 @@ const authLink = setContext((_, { headers }) => {
 const link = authLink.concat(httpLink);
 
 const client = new ApolloClient({
+  ssrMode: true,
   link,
   cache: new InMemoryCache(),
 });
