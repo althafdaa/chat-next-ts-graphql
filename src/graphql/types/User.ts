@@ -4,6 +4,7 @@ import { registerResolver } from '../resolvers/auth/register';
 import { getUsers } from '../resolvers/auth/getUsers';
 import { getUser } from '../resolvers/auth/getUser';
 import { Follow } from './Follow';
+import { validateLoginResolver } from '../resolvers/auth/validateLogin';
 
 export const User = objectType({
   name: 'User',
@@ -104,6 +105,24 @@ export const loginUser = extendType({
       type: LoginResponse,
       args: { data: nonNull(LoginInput) },
       resolve: loginResolver,
+    });
+  },
+});
+
+export const validateLoginResponse = objectType({
+  name: 'ValidateLogin',
+  definition: (t) => {
+    t.boolean('isLoggedIn');
+    t.string('userName');
+  },
+});
+
+export const validateLogin = extendType({
+  type: 'Query',
+  definition: (t) => {
+    t.field('validateLogin', {
+      type: validateLoginResponse,
+      resolve: validateLoginResolver,
     });
   },
 });

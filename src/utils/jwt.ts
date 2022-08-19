@@ -1,11 +1,11 @@
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 
 if (!process.env.JWT_SECRET) {
   console.warn('NO JWT SECRET');
 }
 
 export const createToken = (payload: object, options: jwt.SignOptions) => {
-  return new Promise((resolve, reject) => {
+  return new Promise<string>((resolve, reject) => {
     jwt.sign(
       payload,
       process.env.JWT_SECRET as string,
@@ -19,10 +19,10 @@ export const createToken = (payload: object, options: jwt.SignOptions) => {
 };
 
 export const verifyToken = (payload: string) => {
-  return new Promise((resolve, reject) => {
-    jwt.verify(payload, process.env.JWT_SECRET as string, (err, encoded) => {
+  return new Promise<JwtPayload>((resolve, reject) => {
+    jwt.verify(payload, process.env.JWT_SECRET as string, (err, decoded) => {
       if (err) return reject(err);
-      else return resolve(encoded as string);
+      else return resolve(decoded as JwtPayload);
     });
   });
 };

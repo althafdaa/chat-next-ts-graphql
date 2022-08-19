@@ -54,6 +54,7 @@ type Query {
   Users: [User]
   getFollowing: [Follow]
   msgBetweenUser(data: msgBetweenUserInput!): [Message]
+  validateLogin: ValidateLogin
 }
 
 input RegisterInput {
@@ -77,6 +78,11 @@ type User {
 
 input UserByIdInput {
   id: String!
+}
+
+type ValidateLogin {
+  isLoggedIn: Boolean
+  userName: String
 }
 
 input followPeopleInput {
