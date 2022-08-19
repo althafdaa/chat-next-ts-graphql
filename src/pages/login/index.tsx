@@ -22,7 +22,6 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import nookies from 'nookies';
-import { useEffect } from 'react';
 
 interface FormikValuesType {
   userName: string;
@@ -49,7 +48,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   };
 }
 
-const LoginPage: NextPage<LoginPageProps> = ({ token }) => {
+const LoginPage: NextPage<LoginPageProps> = () => {
   const [loginUser] = useMutation(LOGIN_USER);
   const router = useRouter();
 
@@ -90,10 +89,6 @@ const LoginPage: NextPage<LoginPageProps> = ({ token }) => {
     onSubmit: handleSubmit,
     validationSchema: LoginSchema,
   });
-
-  useEffect(() => {
-    if (token) router.push('/');
-  }, [token]);
 
   return (
     <Box
