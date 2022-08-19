@@ -70,7 +70,7 @@ const RegisterPage: NextPage<RegisterPageProps> = ({ token }) => {
         isClosable: true,
       });
 
-      return router.push('/login');
+      router.push('/login');
     } catch (error) {
       const errMsg = parseErrorMsg(error as Error);
       toast({
