@@ -28,6 +28,7 @@ const Wrapper: FC<Props> = ({ children }) => {
       {!nonAuth && (
         <FollowingDrawer isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
       )}
+
       {children}
 
       {nonAuth && <Footer />}

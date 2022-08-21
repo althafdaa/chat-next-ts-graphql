@@ -15,6 +15,7 @@ const FollowingItem: FC<FollowingItemProps> = ({ item }) => {
       display={'flex'}
       alignItems={'center'}
       gap={'0.5rem'}
+      mb="0.5rem"
     >
       <img
         style={{

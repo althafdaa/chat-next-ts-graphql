@@ -14,13 +14,11 @@ import {
 } from '@chakra-ui/react';
 import React, { FC } from 'react';
 import FollowingItem from '../FollowingItem';
-
 interface FollowingDrawerProps {
   isOpen: boolean;
   onOpen?: () => void;
   onClose: () => void;
 }
-
 interface getFollowingUsertype {
   id: string;
   userName: string;
@@ -57,11 +55,9 @@ const FollowingDrawer: FC<FollowingDrawerProps> = ({ isOpen, onClose }) => {
                   </AccordionButton>
                 </h2>
                 <AccordionPanel pb={4}>
-                  {data?.getFollowing.map(
-                    (item: getFollowingFieldType, idx: number) => {
-                      return <FollowingItem item={item} key={idx} />;
-                    }
-                  )}
+                  {data?.getFollowing.map((item: getFollowingFieldType) => {
+                    return <FollowingItem item={item} key={item.user.id} />;
+                  })}
                 </AccordionPanel>
               </AccordionItem>
             </Accordion>

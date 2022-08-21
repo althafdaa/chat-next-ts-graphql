@@ -25,33 +25,38 @@ const ProfilePage: NextPage = () => {
   const router = useRouter();
   const [logout] = useMutation(LOGOUT);
   const toast = useToast();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+
+      toast({
+        position: 'top-right',
+        title: `Logged out.`,
+        status: 'success',
+        duration: 1000,
+        isClosable: true,
+      });
+      return router.push('/');
+    } catch (error) {
+      console.log(error);
+      toast({
+        position: 'top-right',
+        title: `Something went wrong`,
+        status: 'error',
+        duration: 1000,
+        isClosable: true,
+      });
+    }
+  };
+
   return (
     <>
       <Head>
         <title>Profile | Chat App</title>
       </Head>
 
-      <main>indexProfilePage</main>
-      <Button
-        onClick={async () => {
-          try {
-            const data = await logout();
-
-            toast({
-              position: 'top-right',
-              title: `Logged out.`,
-              status: 'success',
-              duration: 1000,
-              isClosable: true,
-            });
-            return router.push('/');
-          } catch (error) {
-            console.log(error);
-          }
-        }}
-      >
-        Logout
-      </Button>
+      <Button onClick={handleLogout}>Logout</Button>
     </>
   );
 };
