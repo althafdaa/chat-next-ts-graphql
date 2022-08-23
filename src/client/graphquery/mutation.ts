@@ -31,3 +31,12 @@ export const LOGOUT = gql`
     }
   }
 `;
+
+export const UPDATE_PROFILE = gql`
+  mutation Mutation($data: payload!) {
+    updatedProfile(data: $data) {
+      updatedAt
+      userName
+    }
+  }
+`;

@@ -1,12 +1,13 @@
 import MailIcon from '@/assets/icons/MailIcon';
 import UserIcon from '@/assets/icons/UserIcon';
-import { LOGOUT } from '@/client/graphquery/mutation';
-import { GET_FOLLOWING, GET_PROFILE } from '@/client/graphquery/query';
+import { LOGOUT, UPDATE_PROFILE } from '@/client/graphquery/mutation';
+import { GET_PROFILE } from '@/client/graphquery/query';
 import prisma from '@/server/db/client';
 import { useMutation, useQuery } from '@apollo/client';
 import {
   Box,
   Button,
+  Flex,
   FormControl,
   FormLabel,
   Input,
@@ -23,6 +24,7 @@ import { useRouter } from 'next/router';
 import nookies from 'nookies';
 import { useState } from 'react';
 import PhotoPlaceholder from '@/assets/img/PhotoPlaceholder.png';
+import { UpdateProfileSchema } from '@/utils/validation';
 
 interface FollowingUserType {
   id: string;
@@ -45,6 +47,10 @@ interface ProfileType {
 }
 interface getProfileResponseType {
   UserById: ProfileType;
+}
+
+interface updateProfileFormikType {
+  userName: string;
 }
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
@@ -73,22 +79,15 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   });
 }
 
-const ProfilePage: NextPage = (props) => {
-  const { data, loading, error } = useQuery<getProfileResponseType>(
-    GET_PROFILE,
-    {
-      variables: { data: { id: null } },
-      notifyOnNetworkStatusChange: true,
-    }
-  );
+const ProfilePage: NextPage = () => {
+  const { data, refetch } = useQuery<getProfileResponseType>(GET_PROFILE, {
+    variables: { data: { id: null } },
+    notifyOnNetworkStatusChange: true,
+  });
+  const [updateProfile] = useMutation(UPDATE_PROFILE);
   const router = useRouter();
   const [logout] = useMutation(LOGOUT);
   const toast = useToast();
-  const formik = useFormik({
-    initialValues: {
-      userName: data?.UserById.userName ?? '',
-    },
-  });
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const handleLogout = async () => {
@@ -115,6 +114,47 @@ const ProfilePage: NextPage = (props) => {
     }
   };
 
+  const handleSubmit = async (payload: updateProfileFormikType) => {
+    try {
+      if (payload.userName === data?.UserById.userName) {
+        return setIsEditing(false);
+      }
+
+      await updateProfile({ variables: { data: payload } });
+
+      refetch();
+
+      toast({
+        position: 'top-right',
+        title: `Profile updated.`,
+        status: 'success',
+        duration: 1000,
+        isClosable: true,
+      });
+    } catch (error) {
+      const err = error as Error;
+      console.log(err);
+      toast({
+        position: 'top-right',
+        title: err.message,
+        status: 'error',
+        duration: 1000,
+        isClosable: true,
+      });
+    } finally {
+      setIsEditing(false);
+    }
+  };
+
+  const formik = useFormik({
+    onSubmit: handleSubmit,
+    initialValues: {
+      userName: data?.UserById.userName ?? '',
+    },
+    validationSchema: UpdateProfileSchema,
+    validateOnChange: true,
+  });
+
   const formLabelProps = {
     display: 'flex',
     alignItems: 'center',
@@ -123,6 +163,7 @@ const ProfilePage: NextPage = (props) => {
   };
 
   const formValidationErrorProps = {
+    ml: '3rem',
     fontSize: 'xs',
     color: 'red',
     as: motion.span,
@@ -174,9 +215,11 @@ const ProfilePage: NextPage = (props) => {
           alt="photoprofile"
         />
 
-        <Text>Followings: {data?.UserById.following.length}</Text>
+        <Text fontSize={'sm'} fontWeight={400} mt={'12px'}>
+          {data?.UserById.following.length} followings
+        </Text>
 
-        <form style={{ minWidth: '100%' }}>
+        <form style={{ minWidth: '100%' }} onSubmit={formik.handleSubmit}>
           <VStack minW={'100%'}>
             <FormControl display={'flex'} alignItems="center">
               <FormLabel {...formLabelProps}>
@@ -188,46 +231,79 @@ const ProfilePage: NextPage = (props) => {
               </Text>
             </FormControl>
 
-            <FormControl display={'flex'} alignItems="center">
-              <FormLabel {...formLabelProps}>
-                <UserIcon style={{ height: '24px' }} fill="currentColor" />
-              </FormLabel>
-              {isEditing && (
-                <>
+            <FormControl>
+              <Box display={'flex'} alignItems="center">
+                <FormLabel {...formLabelProps}>
+                  <UserIcon style={{ height: '24px' }} fill="currentColor" />
+                </FormLabel>
+                {isEditing && (
                   <Input
                     fontSize={'sm'}
                     name="userName"
                     onChange={formik.handleChange}
                     value={formik.values.userName}
                     placeholder="Enter your user name"
-                    type={'email'}
+                    type={'text'}
                     disabled={!isEditing ?? false}
                   ></Input>
-                  {formik.errors.userName && formik.touched.userName && (
-                    <Text {...formValidationErrorProps}>
-                      {formik.errors.userName}
-                    </Text>
-                  )}
-                </>
-              )}
+                )}
 
-              {!isEditing && (
-                <Text
-                  fontSize={'sm'}
-                  px={'1rem'}
-                  py={'0.5rem'}
-                  fontWeight={600}
-                >
-                  {data?.UserById.userName}
+                {!isEditing && (
+                  <Text
+                    fontSize={'sm'}
+                    px={'1rem'}
+                    py={'0.5rem'}
+                    fontWeight={600}
+                  >
+                    {data?.UserById.userName}
+                  </Text>
+                )}
+              </Box>
+              {formik.errors.userName && formik.touched.userName && (
+                <Text {...formValidationErrorProps}>
+                  {formik.errors.userName}
                 </Text>
               )}
             </FormControl>
-            <Button
-              onClick={() => setIsEditing((prev) => !prev)}
-              alignSelf="end"
-            >
-              {isEditing ? 'Save' : 'Edit'}
-            </Button>
+
+            {isEditing && (
+              <Flex alignSelf="end" gap={'0.5rem'}>
+                <Button
+                  fontSize={'sm'}
+                  bg={'red.100'}
+                  fontWeight="500"
+                  onClick={() => {
+                    setIsEditing(false);
+                    formik.resetForm();
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  fontSize={'sm'}
+                  bg="green.100"
+                  type={'submit'}
+                  alignSelf="end"
+                  fontWeight="500"
+                >
+                  Save
+                </Button>
+              </Flex>
+            )}
+
+            {!isEditing && (
+              <Button
+                fontSize={'sm'}
+                type={'button'}
+                onClick={() => {
+                  setIsEditing(true);
+                  formik.setValues({ userName: data?.UserById.userName ?? '' });
+                }}
+                alignSelf="end"
+              >
+                Edit
+              </Button>
+            )}
           </VStack>
         </form>
       </Box>

@@ -13,6 +13,7 @@ import { Follow } from './Follow';
 import { validateLoginResolver } from '../resolvers/auth/validateLogin';
 import { destroyCookie } from 'nookies';
 import { checkAuth } from '@/utils/checkAuth';
+import { updateUserResolver } from '../resolvers/auth/updateUser';
 
 export const User = objectType({
   name: 'User',
@@ -164,6 +165,32 @@ export const logout = extendType({
           message: 'Logout success',
         };
       },
+    });
+  },
+});
+
+export const updatedUserResponse = objectType({
+  name: 'UpdatedUser',
+  definition: (t) => {
+    t.date('updatedAt');
+    t.string('userName');
+  },
+});
+
+export const updateUserPayload = inputObjectType({
+  name: 'payload',
+  definition: (t) => {
+    t.nullable.string('userName');
+  },
+});
+
+export const updateUser = extendType({
+  type: 'Mutation',
+  definition: (t) => {
+    t.field('updatedProfile', {
+      type: updatedUserResponse,
+      args: { data: nonNull(updateUserPayload) },
+      resolve: updateUserResolver,
     });
   },
 });

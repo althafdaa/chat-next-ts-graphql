@@ -54,6 +54,7 @@ type Mutation {
   registerUser(data: RegisterInput!): User
   sendMessage(data: MessageInput!): Message
   unFollow(data: followPeopleInput!): Follow
+  updatedProfile(data: payload!): UpdatedUser
 }
 
 type Query {
@@ -71,6 +72,11 @@ input RegisterInput {
   lastName: String!
   password: String!
   userName: String!
+}
+
+type UpdatedUser {
+  updatedAt: Date
+  userName: String
 }
 
 type User {
@@ -98,4 +104,8 @@ input followPeopleInput {
 
 input msgBetweenUserInput {
   receiverId: String!
+}
+
+input payload {
+  userName: String
 }
