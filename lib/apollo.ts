@@ -73,7 +73,7 @@ export function initializeApollo({ ctx, initialState }: InitApollo) {
 
 export const addApolloState = (
   client: ApolloClient<NormalizedCacheObject>,
-  pageProps: { props: any }
+  pageProps: { props: any; redirect?: any }
 ) => {
   pageProps.props[APOLLO_STATE_PROP_NAME] = client.cache.extract();
 

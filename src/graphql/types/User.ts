@@ -1,4 +1,10 @@
-import { extendType, inputObjectType, nonNull, objectType } from 'nexus';
+import {
+  extendType,
+  inputObjectType,
+  nonNull,
+  nullable,
+  objectType,
+} from 'nexus';
 import { loginResolver } from '../resolvers/auth/login';
 import { registerResolver } from '../resolvers/auth/register';
 import { getUsers } from '../resolvers/auth/getUsers';
@@ -30,7 +36,7 @@ export const User = objectType({
 export const UserByIdInput = inputObjectType({
   name: 'UserByIdInput',
   definition: (t) => {
-    t.nonNull.string('id');
+    t.nullable.string('id');
   },
 });
 
@@ -39,7 +45,7 @@ export const UserById = extendType({
   definition: (t) => {
     t.field('UserById', {
       type: User,
-      args: { data: nonNull(UserByIdInput) },
+      args: { data: nullable(UserByIdInput) },
       resolve: getUser,
     });
   },

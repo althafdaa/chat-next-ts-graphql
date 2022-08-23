@@ -10,3 +10,25 @@ export const GET_FOLLOWING = gql`
     }
   }
 `;
+
+export const GET_PROFILE = gql`
+  query ($data: UserByIdInput!) {
+    UserById(data: $data) {
+      id
+      email
+      firstName
+      lastName
+      userName
+      following {
+        id
+        createdAt
+        user {
+          id
+          email
+          userName
+        }
+      }
+      createdAt
+    }
+  }
+`;

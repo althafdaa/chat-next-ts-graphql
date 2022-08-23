@@ -3,13 +3,23 @@ import { FieldResolver } from 'nexus';
 
 export const getUser: FieldResolver<'Query', 'UserById'> = async (
   _parent,
-  _args,
+  args,
   ctx
 ) => {
+  const { data } = args;
   const userId = await checkAuth(ctx);
 
-  const users = ctx.prisma.user.findUnique({
-    where: { id: userId },
-  });
-  return users;
+  if (data?.id) {
+    const users = ctx.prisma.user.findUnique({
+      where: { id: data?.id },
+    });
+
+    return users;
+  } else {
+    const users = ctx.prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    return users;
+  }
 };

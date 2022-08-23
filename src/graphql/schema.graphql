@@ -57,7 +57,7 @@ type Mutation {
 }
 
 type Query {
-  UserById(data: UserByIdInput!): User
+  UserById(data: UserByIdInput): User
   Users: [User]
   getFollowing: [Follow]
   msgBetweenUser(data: msgBetweenUserInput!): [Message]
@@ -84,7 +84,7 @@ type User {
 }
 
 input UserByIdInput {
-  id: String!
+  id: String
 }
 
 type ValidateLogin {
