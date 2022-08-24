@@ -23,6 +23,21 @@ export const LoginSchema = y.object().shape({
     .required('Password is required'),
 });
 
+export const ResetPasswordSchema = y.object().shape({
+  newPassword: y
+    .string()
+    .min(8, 'Password minimum 8 characters')
+    .required('Password is required'),
+  password: y
+    .string()
+    .min(8, 'Password minimum 8 characters')
+    .required('Password is required'),
+  confirmPassword: y
+    .string()
+    .required('Please retype your password.')
+    .oneOf([y.ref('password')], 'Your passwords do not match.'),
+});
+
 export const UpdateProfileSchema = y.object().shape({
   userName: y.string().required('Username is required'),
 });

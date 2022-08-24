@@ -1,6 +1,7 @@
 import LoginIcon from '@/assets/icons/LoginIcon';
 import { LOGIN_USER } from '@/client/graphquery/mutation';
 import BackButton from '@/components/BackButton';
+import InputErrorMessage from '@/components/General/Form/InputErrorMessage';
 import { LoginSchema, parseErrorMsg } from '@/utils/validation';
 import { useMutation } from '@apollo/client';
 import {
@@ -90,6 +91,12 @@ const LoginPage: NextPage<LoginPageProps> = () => {
     validationSchema: LoginSchema,
   });
 
+  const isFormInvalid = (name: string) => {
+    // @ts-ignore
+    if (formik.errors[name] && formik.touched[name]) return true;
+    else false;
+  };
+
   return (
     <Box
       minH="100vh"
@@ -138,28 +145,17 @@ const LoginPage: NextPage<LoginPageProps> = () => {
                 boxShadow="md"
               >
                 <VStack minW={'100%'}>
-                  <FormControl>
+                  <FormControl isInvalid={isFormInvalid('userName')}>
                     <FormLabel>Username</FormLabel>
                     <Input
                       name="userName"
                       onChange={formik.handleChange}
                       value={formik.values.userName}
                       placeholder="Enter your username"
-                    ></Input>
-                    {formik.errors.userName && formik.touched.userName && (
-                      <Text
-                        fontSize="xs"
-                        color="red"
-                        as={motion.span}
-                        initial={{ opacity: 0.5, y: -5 }}
-                        animate={{ opacity: 1, y: 1 }}
-                        exit={{ opacity: 0 }}
-                      >
-                        {formik.errors.userName}
-                      </Text>
-                    )}
+                    />
+                    <InputErrorMessage name="userName" formik={formik} />
                   </FormControl>
-                  <FormControl>
+                  <FormControl isInvalid={isFormInvalid('password')}>
                     <FormLabel>Password</FormLabel>
                     <Input
                       name="password"
@@ -167,19 +163,8 @@ const LoginPage: NextPage<LoginPageProps> = () => {
                       value={formik.values.password}
                       placeholder="Enter your password"
                       type={'password'}
-                    ></Input>
-                    {formik.errors.password && formik.touched.password && (
-                      <Text
-                        fontSize="xs"
-                        color="red"
-                        as={motion.span}
-                        initial={{ opacity: 0.5, y: -5 }}
-                        animate={{ opacity: 1, y: 1 }}
-                        exit={{ opacity: 0 }}
-                      >
-                        {formik.errors.password}
-                      </Text>
-                    )}
+                    />
+                    <InputErrorMessage name="password" formik={formik} />
                   </FormControl>
                 </VStack>
                 <Button

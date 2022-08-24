@@ -20,10 +20,12 @@ const Wrapper: FC<Props> = ({ children }) => {
   return (
     <Center
       display={'flex'}
+      mx="auto"
       flexDir="column"
       position={'relative'}
       minH={'100vh'}
       bgColor={nonAuth ? 'green.300' : 'gray.100'}
+      maxW={'480px'}
     >
       {!nonAuth && (
         <FollowingDrawer isOpen={isOpen} onOpen={onOpen} onClose={onClose} />

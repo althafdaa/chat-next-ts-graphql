@@ -63,13 +63,28 @@ const Navigation: React.FC<NavigationProps> = ({ onOpen }) => {
           <Box display={'flex'} flexDir={'column'} alignItems="center">
             <UserIcon
               style={{ height: '24px' }}
-              fill={router.asPath === '/profile' ? '#2D3748' : '#BEE3F8'}
+              fill={
+                router.asPath === '/profile' ||
+                router.asPath === '/profile/reset-password'
+                  ? '#2D3748'
+                  : '#BEE3F8'
+              }
             />
 
             <Text
               fontSize={'xs'}
-              color={router.asPath === '/profile' ? '#2D3748' : '#BEE3F8'}
-              fontWeight={router.asPath === '/profile' ? 700 : 400}
+              color={
+                router.asPath === '/profile' ||
+                router.asPath === '/profile/reset-password'
+                  ? '#2D3748'
+                  : '#BEE3F8'
+              }
+              fontWeight={
+                router.asPath === '/profile' ||
+                router.asPath === '/profile/reset-password'
+                  ? 700
+                  : 400
+              }
             >
               Profile
             </Text>

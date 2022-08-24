@@ -23,6 +23,7 @@ import { useRouter } from 'next/router';
 import { parseErrorMsg, RegisterSchema } from '@/utils/validation';
 import nookies from 'nookies';
 import { useEffect } from 'react';
+import InputErrorMessage from '@/components/General/Form/InputErrorMessage';
 
 interface FormikValuesType {
   userName: string;
@@ -96,6 +97,11 @@ const RegisterPage: NextPage<RegisterPageProps> = ({ token }) => {
     onSubmit: handleSubmit,
     validationSchema: RegisterSchema,
   });
+  const isFormInvalid = (name: string) => {
+    // @ts-ignore
+    if (formik.errors[name] && formik.touched[name]) return true;
+    else false;
+  };
 
   useEffect(() => {
     if (token) router.push('/');
@@ -142,7 +148,7 @@ const RegisterPage: NextPage<RegisterPageProps> = ({ token }) => {
                 boxShadow="md"
               >
                 <VStack minW={'100%'}>
-                  <FormControl>
+                  <FormControl isInvalid={isFormInvalid('email')}>
                     <FormLabel>Email</FormLabel>
                     <Input
                       name="email"
@@ -151,20 +157,9 @@ const RegisterPage: NextPage<RegisterPageProps> = ({ token }) => {
                       placeholder="Enter your email"
                       type={'email'}
                     ></Input>
-                    {formik.errors.email && formik.touched.email && (
-                      <Text
-                        fontSize="xs"
-                        color="red"
-                        as={motion.span}
-                        initial={{ opacity: 0.5, y: -5 }}
-                        animate={{ opacity: 1, y: 1 }}
-                        exit={{ opacity: 0 }}
-                      >
-                        {formik.errors.email}
-                      </Text>
-                    )}
+                    <InputErrorMessage name="email" formik={formik} />
                   </FormControl>
-                  <FormControl>
+                  <FormControl isInvalid={isFormInvalid('userName')}>
                     <FormLabel>Username</FormLabel>
                     <Input
                       name="userName"
@@ -172,21 +167,10 @@ const RegisterPage: NextPage<RegisterPageProps> = ({ token }) => {
                       value={formik.values.userName}
                       placeholder="Enter your username"
                     ></Input>
-                    {formik.errors.userName && formik.touched.userName && (
-                      <Text
-                        fontSize="xs"
-                        color="red"
-                        as={motion.span}
-                        initial={{ opacity: 0.5, y: -5 }}
-                        animate={{ opacity: 1, y: 1 }}
-                        exit={{ opacity: 0 }}
-                      >
-                        {formik.errors.userName}
-                      </Text>
-                    )}
+                    <InputErrorMessage name="userName" formik={formik} />
                   </FormControl>
 
-                  <FormControl>
+                  <FormControl isInvalid={isFormInvalid('firstName')}>
                     <FormLabel>First Name</FormLabel>
                     <Input
                       name="firstName"
@@ -194,21 +178,10 @@ const RegisterPage: NextPage<RegisterPageProps> = ({ token }) => {
                       value={formik.values.firstName}
                       placeholder="Enter your first name"
                     ></Input>
-                    {formik.errors.firstName && formik.touched.firstName && (
-                      <Text
-                        fontSize="xs"
-                        color="red"
-                        as={motion.span}
-                        initial={{ opacity: 0.5, y: -5 }}
-                        animate={{ opacity: 1, y: 1 }}
-                        exit={{ opacity: 0 }}
-                      >
-                        {formik.errors.firstName}
-                      </Text>
-                    )}
+                    <InputErrorMessage name="firstName" formik={formik} />
                   </FormControl>
 
-                  <FormControl>
+                  <FormControl isInvalid={isFormInvalid('lastName')}>
                     <FormLabel>Last name</FormLabel>
                     <Input
                       name="lastName"
@@ -216,21 +189,10 @@ const RegisterPage: NextPage<RegisterPageProps> = ({ token }) => {
                       value={formik.values.lastName}
                       placeholder="Enter your last name"
                     ></Input>
-                    {formik.errors.lastName && formik.touched.lastName && (
-                      <Text
-                        fontSize="xs"
-                        color="red"
-                        as={motion.span}
-                        initial={{ opacity: 0.5, y: -5 }}
-                        animate={{ opacity: 1, y: 1 }}
-                        exit={{ opacity: 0 }}
-                      >
-                        {formik.errors.lastName}
-                      </Text>
-                    )}
+                    <InputErrorMessage name="lastName" formik={formik} />
                   </FormControl>
 
-                  <FormControl>
+                  <FormControl isInvalid={isFormInvalid('password')}>
                     <FormLabel>Password</FormLabel>
                     <Input
                       name="password"
@@ -239,21 +201,10 @@ const RegisterPage: NextPage<RegisterPageProps> = ({ token }) => {
                       placeholder="Enter your password"
                       type={'password'}
                     ></Input>
-                    {formik.errors.password && formik.touched.password && (
-                      <Text
-                        fontSize="xs"
-                        color="red"
-                        as={motion.span}
-                        initial={{ opacity: 0.5, y: -5 }}
-                        animate={{ opacity: 1, y: 1 }}
-                        exit={{ opacity: 0 }}
-                      >
-                        {formik.errors.password}
-                      </Text>
-                    )}
+                    <InputErrorMessage name="password" formik={formik} />
                   </FormControl>
 
-                  <FormControl>
+                  <FormControl isInvalid={isFormInvalid('confirmPassword')}>
                     <FormLabel>Retype Password</FormLabel>
                     <Input
                       name="confirmPassword"
@@ -263,19 +214,7 @@ const RegisterPage: NextPage<RegisterPageProps> = ({ token }) => {
                       type={'password'}
                     ></Input>
 
-                    {formik.errors.confirmPassword &&
-                      formik.touched.confirmPassword && (
-                        <Text
-                          fontSize="xs"
-                          color="red"
-                          as={motion.span}
-                          initial={{ opacity: 0.5, y: -5 }}
-                          animate={{ opacity: 1, y: 1 }}
-                          exit={{ opacity: 0 }}
-                        >
-                          {formik.errors.confirmPassword}
-                        </Text>
-                      )}
+                    <InputErrorMessage name="confirmPassword" formik={formik} />
                   </FormControl>
                 </VStack>
                 <Button

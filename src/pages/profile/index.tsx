@@ -14,9 +14,9 @@ import {
   Text,
   useToast,
   VStack,
+  Link as ChakraLink,
 } from '@chakra-ui/react';
 import { useFormik } from 'formik';
-import { motion } from 'framer-motion';
 import { addApolloState, initializeApollo } from 'lib/apollo';
 import type { GetServerSidePropsContext, NextPage } from 'next';
 import Head from 'next/head';
@@ -25,6 +25,8 @@ import nookies from 'nookies';
 import { useState } from 'react';
 import PhotoPlaceholder from '@/assets/img/PhotoPlaceholder.png';
 import { UpdateProfileSchema } from '@/utils/validation';
+import Link from 'next/link';
+import InputErrorMessage from '@/components/General/Form/InputErrorMessage';
 
 interface FollowingUserType {
   id: string;
@@ -162,14 +164,10 @@ const ProfilePage: NextPage = () => {
     mt: '8px',
   };
 
-  const formValidationErrorProps = {
-    ml: '3rem',
-    fontSize: 'xs',
-    color: 'red',
-    as: motion.span,
-    initial: { opacity: 0.5, y: -5 },
-    animate: { opacity: 1, y: 1 },
-    exit: { opacity: 0 },
+  const isFormInvalid = (name: string) => {
+    // @ts-ignore
+    if (formik.errors[name] && formik.touched[name]) return true;
+    else false;
   };
 
   return (
@@ -231,7 +229,7 @@ const ProfilePage: NextPage = () => {
               </Text>
             </FormControl>
 
-            <FormControl>
+            <FormControl isInvalid={isFormInvalid('userName')}>
               <Box display={'flex'} alignItems="center">
                 <FormLabel {...formLabelProps}>
                   <UserIcon style={{ height: '24px' }} fill="currentColor" />
@@ -259,18 +257,19 @@ const ProfilePage: NextPage = () => {
                   </Text>
                 )}
               </Box>
-              {formik.errors.userName && formik.touched.userName && (
-                <Text {...formValidationErrorProps}>
-                  {formik.errors.userName}
-                </Text>
-              )}
+              <InputErrorMessage name="userName" formik={formik} />
             </FormControl>
+            <Link href={'/profile/reset-password'} passHref>
+              <ChakraLink alignSelf={'end'} fontSize={'xs'}>
+                Change password
+              </ChakraLink>
+            </Link>
 
             {isEditing && (
               <Flex alignSelf="end" gap={'0.5rem'}>
                 <Button
                   fontSize={'sm'}
-                  bg={'red.100'}
+                  colorScheme="pink"
                   fontWeight="500"
                   onClick={() => {
                     setIsEditing(false);
@@ -281,7 +280,7 @@ const ProfilePage: NextPage = () => {
                 </Button>
                 <Button
                   fontSize={'sm'}
-                  bg="green.100"
+                  colorScheme="teal"
                   type={'submit'}
                   alignSelf="end"
                   fontWeight="500"
