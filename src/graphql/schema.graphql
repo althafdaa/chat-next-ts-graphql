@@ -54,7 +54,8 @@ type Mutation {
   registerUser(data: RegisterInput!): User
   sendMessage(data: MessageInput!): Message
   unFollow(data: followPeopleInput!): Follow
-  updatedProfile(data: payload!): UpdatedUser
+  updatePassword(data: updatePasswordPayload!): updatePasswordResponse
+  updatedProfile(data: payload): UpdatedUser
 }
 
 type Query {
@@ -108,4 +109,14 @@ input msgBetweenUserInput {
 
 input payload {
   userName: String
+}
+
+input updatePasswordPayload {
+  confirmPassword: String!
+  newPassword: String!
+  password: String!
+}
+
+type updatePasswordResponse {
+  message: String
 }

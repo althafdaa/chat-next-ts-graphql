@@ -14,6 +14,7 @@ import { validateLoginResolver } from '../resolvers/auth/validateLogin';
 import { destroyCookie } from 'nookies';
 import { checkAuth } from '@/utils/checkAuth';
 import { updateUserResolver } from '../resolvers/auth/updateUser';
+import { updatePasswordResolver } from '../resolvers/auth/updatePassword';
 
 export const User = objectType({
   name: 'User',
@@ -189,8 +190,36 @@ export const updateUser = extendType({
   definition: (t) => {
     t.field('updatedProfile', {
       type: updatedUserResponse,
-      args: { data: nonNull(updateUserPayload) },
+      args: { data: updateUserPayload },
       resolve: updateUserResolver,
+    });
+  },
+});
+
+export const updatePasswordResponse = objectType({
+  name: 'updatePasswordResponse',
+  definition: (t) => {
+    t.date('updatedAt');
+    t.string('message');
+  },
+});
+
+export const updatePasswordPayload = inputObjectType({
+  name: 'updatePasswordPayload',
+  definition: (t) => {
+    t.nonNull.string('newPassword');
+    t.nonNull.string('password');
+    t.nonNull.string('confirmPassword');
+  },
+});
+
+export const updatePassword = extendType({
+  type: 'Mutation',
+  definition: (t) => {
+    t.field('updatePassword', {
+      type: updatePasswordResponse,
+      args: { data: nonNull(updatePasswordPayload) },
+      resolve: updatePasswordResolver,
     });
   },
 });
