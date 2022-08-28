@@ -5,7 +5,7 @@ export const updateUserResolver: FieldResolver<
   'Mutation',
   'updatedProfile'
 > = async (_parent, args, ctx) => {
-  const { userName } = args.data;
+  const { userName } = args.data || {};
   const userId = await checkAuth(ctx);
 
   if (!userName) throw new Error("Username can't be empty");

@@ -190,7 +190,7 @@ export const updateUser = extendType({
   definition: (t) => {
     t.field('updatedProfile', {
       type: updatedUserResponse,
-      args: { data: updateUserPayload },
+      args: { data: nullable(updateUserPayload) },
       resolve: updateUserResolver,
     });
   },

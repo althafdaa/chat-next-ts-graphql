@@ -119,4 +119,5 @@ input updatePasswordPayload {
 
 type updatePasswordResponse {
   message: String
+  updatedAt: Date
 }

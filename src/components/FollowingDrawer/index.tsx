@@ -34,6 +34,7 @@ interface getFollowingResponseType {
 const FollowingDrawer: FC<FollowingDrawerProps> = ({ isOpen, onClose }) => {
   const { data, loading, error } =
     useQuery<getFollowingResponseType>(GET_FOLLOWING);
+  const { getFollowing } = data || {};
 
   return (
     <Drawer placement={'left'} onClose={onClose} isOpen={isOpen}>
@@ -55,7 +56,7 @@ const FollowingDrawer: FC<FollowingDrawerProps> = ({ isOpen, onClose }) => {
                   </AccordionButton>
                 </h2>
                 <AccordionPanel pb={4}>
-                  {data?.getFollowing.map((item: getFollowingFieldType) => {
+                  {getFollowing?.map((item: getFollowingFieldType) => {
                     return <FollowingItem item={item} key={item.user.id} />;
                   })}
                 </AccordionPanel>
