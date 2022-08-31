@@ -10,6 +10,7 @@ export const Message = objectType({
     t.nonNull.string('text');
     t.string('receiverId');
     t.string('senderId');
+    t.string('type');
   },
 });
 

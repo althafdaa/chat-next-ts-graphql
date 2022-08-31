@@ -57,7 +57,13 @@ const FollowingDrawer: FC<FollowingDrawerProps> = ({ isOpen, onClose }) => {
                 </h2>
                 <AccordionPanel pb={4}>
                   {getFollowing?.map((item: getFollowingFieldType) => {
-                    return <FollowingItem item={item} key={item.user.id} />;
+                    return (
+                      <FollowingItem
+                        item={item}
+                        key={item.user.id}
+                        onClose={onClose}
+                      />
+                    );
                   })}
                 </AccordionPanel>
               </AccordionItem>

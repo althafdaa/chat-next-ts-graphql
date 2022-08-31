@@ -16,6 +16,12 @@ export const getMessagesResolver: FieldResolver<
       ],
     },
   });
+  const res = messages.map((item) => {
+    if (item.senderId === userId) {
+      return { ...item, type: 'receiver' };
+    }
+    return { ...item, type: 'sender' };
+  });
 
-  return messages;
+  return res;
 };

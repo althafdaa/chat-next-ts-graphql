@@ -6,12 +6,13 @@ import Link from 'next/link';
 
 interface FollowingItemProps {
   item: getFollowingFieldType;
+  onClose: () => void;
 }
 
-const FollowingItem: FC<FollowingItemProps> = ({ item }) => {
+const FollowingItem: FC<FollowingItemProps> = ({ item, onClose }) => {
   return (
     <Link href={`/chats/${item.user.id}`}>
-      <a>
+      <a onClick={onClose}>
         <Box
           fontSize={'14px'}
           as="span"

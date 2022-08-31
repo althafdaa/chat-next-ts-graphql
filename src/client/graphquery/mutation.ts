@@ -40,3 +40,15 @@ export const UPDATE_PROFILE = gql`
     }
   }
 `;
+
+export const SEND_MESSAGE = gql`
+  mutation Mutation($data: MessageInput!) {
+    sendMessage(data: $data) {
+      createdAt
+      id
+      text
+      receiverId
+      senderId
+    }
+  }
+`;

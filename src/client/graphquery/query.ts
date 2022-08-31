@@ -32,3 +32,16 @@ export const GET_PROFILE = gql`
     }
   }
 `;
+
+export const GET_MESSAGE = gql`
+  query ($data: msgBetweenUserInput!) {
+    msgBetweenUser(data: $data) {
+      id
+      createdAt
+      receiverId
+      senderId
+      text
+      type
+    }
+  }
+`;
