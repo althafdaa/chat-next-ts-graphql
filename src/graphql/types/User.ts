@@ -15,7 +15,6 @@ import { destroyCookie } from 'nookies';
 import { checkAuth } from '@/utils/checkAuth';
 import { updateUserResolver } from '../resolvers/auth/updateUser';
 import { updatePasswordResolver } from '../resolvers/auth/updatePassword';
-import { resolve } from 'path';
 
 export const User = objectType({
   name: 'User',
@@ -26,7 +25,8 @@ export const User = objectType({
     t.string('firstName');
     t.string('lastName');
     t.string('userName');
-    t.list.field('following', {
+    t.boolean('followed');
+    t.list.field('followings', {
       type: Follow,
       resolve: (parent, _args, ctx) => {
         const { id } = parent;

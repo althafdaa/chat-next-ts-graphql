@@ -29,7 +29,7 @@ export const getUserByUsername: FieldResolver<
   'UserByUsername'
 > = async (_parent, args, ctx) => {
   const { data } = args;
-  await checkAuth(ctx);
+  const userId = await checkAuth(ctx);
 
   if (data?.userName) {
     const user = await ctx.prisma.user.findUnique({
@@ -37,8 +37,21 @@ export const getUserByUsername: FieldResolver<
     });
 
     if (!user) throw new Error('User not found');
+    if (user?.id === userId) throw new Error("You can't search yourself");
 
-    return user;
+    const followings = await ctx.prisma.follow.findMany({
+      where: { followerId: user.id },
+    });
+
+    let isFollowed = false;
+
+    const followed = followings.find((item) => {
+      return item.followerId.includes(userId);
+    });
+
+    if (followed) isFollowed = true;
+
+    return { ...user, followings, followed: isFollowed };
   }
 
   return null;

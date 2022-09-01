@@ -87,7 +87,8 @@ type User {
   createdAt: Date
   email: String
   firstName: String
-  following: [Follow]
+  followed: Boolean
+  followings: [Follow]
   id: String!
   lastName: String
   userName: String

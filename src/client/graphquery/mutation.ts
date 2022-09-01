@@ -62,7 +62,8 @@ export const GET_USER = gql`
       firstName
       lastName
       email
-      following {
+      followed
+      followings {
         user {
           id
           userName

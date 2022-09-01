@@ -45,7 +45,7 @@ interface ProfileType {
   id: string;
   lastName: string;
   userName: string;
-  following: [FollowingUserType];
+  followings: [FollowingUserType];
 }
 interface getProfileResponseType {
   UserById: ProfileType;
@@ -214,7 +214,7 @@ const ProfilePage: NextPage = () => {
         />
 
         <Text fontSize={'sm'} fontWeight={400} mt={'12px'}>
-          {data?.UserById.following.length} followings
+          {data?.UserById.followings.length} followings
         </Text>
 
         <form style={{ minWidth: '100%' }} onSubmit={formik.handleSubmit}>

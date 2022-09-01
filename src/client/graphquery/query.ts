@@ -19,7 +19,7 @@ export const GET_PROFILE = gql`
       firstName
       lastName
       userName
-      following {
+      followings {
         id
         createdAt
         user {
