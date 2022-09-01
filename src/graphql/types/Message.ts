@@ -1,6 +1,7 @@
 import { extendType, inputObjectType, nonNull, objectType } from 'nexus';
 import { getMessagesResolver } from '../resolvers/message/getMessages';
 import { SendMessageResolver } from '../resolvers/message/sendMessage';
+import { User } from './User';
 
 export const Message = objectType({
   name: 'Message',
@@ -11,6 +12,14 @@ export const Message = objectType({
     t.string('receiverId');
     t.string('senderId');
     t.string('type');
+    t.field('receiver', {
+      type: User,
+      resolve: async (parent, _args, ctx) => {
+        const { receiverId } = parent;
+        if (!receiverId) return null;
+        return await ctx.prisma.user.findUnique({ where: { id: receiverId } });
+      },
+    });
   },
 });
 

@@ -9,6 +9,7 @@ export const getMessagesResolver: FieldResolver<
   const userId = await checkAuth(ctx);
 
   const messages = await ctx.prisma.message.findMany({
+    orderBy: { createdAt: 'desc' },
     where: {
       OR: [
         { receiverId, senderId: userId },
@@ -16,11 +17,12 @@ export const getMessagesResolver: FieldResolver<
       ],
     },
   });
+
   const res = messages.map((item) => {
     if (item.senderId === userId) {
-      return { ...item, type: 'receiver' };
+      return { ...item, type: 'sender' };
     }
-    return { ...item, type: 'sender' };
+    return { ...item, type: 'receiver' };
   });
 
   return res;

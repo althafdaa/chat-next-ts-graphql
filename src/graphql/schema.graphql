@@ -37,6 +37,7 @@ type LogoutResponse {
 type Message {
   createdAt: Date
   id: Int!
+  receiver: User
   receiverId: String
   senderId: String
   text: String!

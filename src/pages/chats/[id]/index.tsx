@@ -1,6 +1,7 @@
 import SendIcon from '@/assets/icons/SendIcon';
 import { SEND_MESSAGE } from '@/client/graphquery/mutation';
 import { GET_MESSAGE } from '@/client/graphquery/query';
+import ChatBubble from '@/components/General/ChatBubble';
 import prisma from '@/server/db/client';
 import { useMutation, useQuery } from '@apollo/client';
 import { Box, Button, FormControl, Input, Textarea } from '@chakra-ui/react';
@@ -49,7 +50,7 @@ interface ChatFormikType {
   message: string;
 }
 
-interface MessageType {
+export interface MessageType {
   id: number;
   createdAt: Date;
   text: string;
@@ -98,8 +99,26 @@ const ChatPage: NextPage<ChatPagePropsType> = ({ id }) => {
         <title>Chat Room | Chat Graph</title>
       </Head>
 
-      <Box w={'100%'}>
-        {msgBetweenUser?.map((item: MessageType) => item.text)}
+      <Box
+        position={'absolute'}
+        top="0"
+        bottom={'135px'}
+        minWidth="100%"
+        display="flex"
+      >
+        <Box
+          minH={'100%'}
+          w={'100%'}
+          display="flex"
+          flexDir={'column-reverse'}
+          justifySelf="flex-end"
+        >
+          {msgBetweenUser?.map((item: MessageType, idx: number) => (
+            <ChatBubble item={item} key={idx}>
+              {item.text}
+            </ChatBubble>
+          ))}
+        </Box>
       </Box>
 
       <form
@@ -109,7 +128,12 @@ const ChatPage: NextPage<ChatPagePropsType> = ({ id }) => {
             return formik.handleSubmit();
           }
         }}
-        style={{ position: 'absolute', bottom: '57px', left: '0', right: '0' }}
+        style={{
+          position: 'absolute',
+          bottom: '57px',
+          left: '0',
+          right: '0',
+        }}
       >
         <FormControl borderTop={'0.5px'} position="relative">
           <Textarea
