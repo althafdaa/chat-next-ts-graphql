@@ -23,3 +23,23 @@ export const getUser: FieldResolver<'Query', 'UserById'> = async (
     return users;
   }
 };
+
+export const getUserByUsername: FieldResolver<
+  'Mutation',
+  'UserByUsername'
+> = async (_parent, args, ctx) => {
+  const { data } = args;
+  await checkAuth(ctx);
+
+  if (data?.userName) {
+    const user = await ctx.prisma.user.findUnique({
+      where: { userName: data?.userName },
+    });
+
+    if (!user) throw new Error('User not found');
+
+    return user;
+  }
+
+  return null;
+};

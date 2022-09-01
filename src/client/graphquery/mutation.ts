@@ -52,3 +52,22 @@ export const SEND_MESSAGE = gql`
     }
   }
 `;
+
+export const GET_USER = gql`
+  mutation Mutation($data: UserByUsernameInput!) {
+    UserByUsername(data: $data) {
+      id
+      createdAt
+      userName
+      firstName
+      lastName
+      email
+      following {
+        user {
+          id
+          userName
+        }
+      }
+    }
+  }
+`;

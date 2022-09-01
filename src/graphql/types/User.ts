@@ -8,13 +8,14 @@ import {
 import { loginResolver } from '../resolvers/auth/login';
 import { registerResolver } from '../resolvers/auth/register';
 import { getUsers } from '../resolvers/auth/getUsers';
-import { getUser } from '../resolvers/auth/getUser';
+import { getUser, getUserByUsername } from '../resolvers/auth/getUser';
 import { Follow } from './Follow';
 import { validateLoginResolver } from '../resolvers/auth/validateLogin';
 import { destroyCookie } from 'nookies';
 import { checkAuth } from '@/utils/checkAuth';
 import { updateUserResolver } from '../resolvers/auth/updateUser';
 import { updatePasswordResolver } from '../resolvers/auth/updatePassword';
+import { resolve } from 'path';
 
 export const User = objectType({
   name: 'User',
@@ -41,6 +42,12 @@ export const UserByIdInput = inputObjectType({
     t.nullable.string('id');
   },
 });
+export const UserByUsernameInput = inputObjectType({
+  name: 'UserByUsernameInput',
+  definition: (t) => {
+    t.nullable.string('userName');
+  },
+});
 
 export const UserById = extendType({
   type: 'Query',
@@ -49,6 +56,17 @@ export const UserById = extendType({
       type: User,
       args: { data: nullable(UserByIdInput) },
       resolve: getUser,
+    });
+  },
+});
+
+export const UserByUsername = extendType({
+  type: 'Mutation',
+  definition: (t) => {
+    t.field('UserByUsername', {
+      type: User,
+      args: { data: nonNull(UserByUsernameInput) },
+      resolve: getUserByUsername,
     });
   },
 });

@@ -50,6 +50,7 @@ input MessageInput {
 }
 
 type Mutation {
+  UserByUsername(data: UserByUsernameInput!): User
   followPeople(data: followPeopleInput!): Follow
   loginUser(data: LoginInput!): LoginResponse
   logout: LogoutResponse
@@ -94,6 +95,10 @@ type User {
 
 input UserByIdInput {
   id: String
+}
+
+input UserByUsernameInput {
+  userName: String
 }
 
 type ValidateLogin {
