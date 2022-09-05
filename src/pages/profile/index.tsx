@@ -20,7 +20,6 @@ import { useFormik } from 'formik';
 import { addApolloState, initializeApollo } from 'lib/apollo';
 import type { GetServerSidePropsContext, NextPage } from 'next';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import nookies from 'nookies';
 import { useState } from 'react';
 import PhotoPlaceholder from '@/assets/img/PhotoPlaceholder.png';
@@ -87,7 +86,6 @@ const ProfilePage: NextPage = () => {
     notifyOnNetworkStatusChange: true,
   });
   const [updateProfile] = useMutation(UPDATE_PROFILE);
-  const router = useRouter();
   const [logout] = useMutation(LOGOUT);
   const toast = useToast();
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -103,7 +101,8 @@ const ProfilePage: NextPage = () => {
         duration: 1000,
         isClosable: true,
       });
-      return router.push('/');
+
+      window.location.reload();
     } catch (error) {
       console.log(error);
       toast({

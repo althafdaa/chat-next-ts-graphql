@@ -18,6 +18,7 @@ import { parseErrorMsg } from '@/utils/validation';
 import ConditionalRender from '@/components/General/ConditionalRender';
 import { useState } from 'react';
 import PhotoPlaceholder from '@/assets/img/PhotoPlaceholder.png';
+import { GET_FOLLOWING } from '@/client/graphquery/query';
 
 interface SearchFormikType {
   userName: string;
@@ -37,8 +38,12 @@ const SearchPage: NextPage = () => {
   const [getUser, { data }] = useMutation<{
     UserByUsername: UserByUsernameType;
   }>(GET_USER);
-  const [follow] = useMutation(FOLLOW);
-  const [unfollow] = useMutation(UNFOLLOW);
+  const [follow] = useMutation(FOLLOW, {
+    refetchQueries: [{ query: GET_FOLLOWING }],
+  });
+  const [unfollow] = useMutation(UNFOLLOW, {
+    refetchQueries: [{ query: GET_FOLLOWING }],
+  });
   const [showInput, setShowInput] = useState<boolean>(true);
   const toast = useToast();
   const [onHover, setOnHover] = useState<boolean>(false);
