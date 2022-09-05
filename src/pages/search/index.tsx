@@ -1,14 +1,23 @@
 import InputErrorMessage from '@/components/General/Form/InputErrorMessage';
-import { Box, Button, FormControl, Input, useToast } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  FormControl,
+  Image,
+  Input,
+  Text,
+  useToast,
+} from '@chakra-ui/react';
 import { FormikHelpers, useFormik } from 'formik';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import SearchIcon from '@/assets/icons/SearchIcon';
 import { useMutation } from '@apollo/client';
-import { GET_USER } from '@/client/graphquery/mutation';
+import { FOLLOW, GET_USER, UNFOLLOW } from '@/client/graphquery/mutation';
 import { parseErrorMsg } from '@/utils/validation';
 import ConditionalRender from '@/components/General/ConditionalRender';
 import { useState } from 'react';
+import PhotoPlaceholder from '@/assets/img/PhotoPlaceholder.png';
 
 interface SearchFormikType {
   userName: string;
@@ -28,8 +37,11 @@ const SearchPage: NextPage = () => {
   const [getUser, { data }] = useMutation<{
     UserByUsername: UserByUsernameType;
   }>(GET_USER);
+  const [follow] = useMutation(FOLLOW);
+  const [unfollow] = useMutation(UNFOLLOW);
   const [showInput, setShowInput] = useState<boolean>(true);
   const toast = useToast();
+  const [onHover, setOnHover] = useState<boolean>(false);
 
   const { UserByUsername } = data || {};
 
@@ -105,9 +117,58 @@ const SearchPage: NextPage = () => {
         </ConditionalRender>
 
         <ConditionalRender when={!showInput}>
-          {UserByUsername?.userName}
-          {UserByUsername?.followed ? 'followed' : 'not followed'}
+          <Box
+            display={'flex'}
+            flexDir="column"
+            alignItems={'center'}
+            gap="0.4rem"
+          >
+            <Image
+              rounded={'full'}
+              h="80px"
+              src={PhotoPlaceholder.src}
+              alt="user photo"
+            />
+            <Text fontSize={'xl'} as="span">
+              {UserByUsername?.userName}
+            </Text>
 
+            <ConditionalRender when={!UserByUsername?.followed}>
+              <Button
+                mb={'1rem'}
+                colorScheme="whatsapp"
+                onClick={async () => {
+                  await follow({
+                    variables: { data: { followingId: UserByUsername?.id } },
+                  });
+                  await getUser({
+                    variables: { data: { userName: UserByUsername?.userName } },
+                  });
+                }}
+              >
+                Follow
+              </Button>
+            </ConditionalRender>
+
+            <ConditionalRender when={UserByUsername?.followed as boolean}>
+              <Button
+                mb={'1rem'}
+                colorScheme="pink"
+                onClick={async () => {
+                  await unfollow({
+                    variables: { data: { followingId: UserByUsername?.id } },
+                  });
+                  await getUser({
+                    variables: { data: { userName: UserByUsername?.userName } },
+                  });
+                }}
+                onMouseEnter={() => setOnHover(true)}
+                onMouseLeave={() => setOnHover(false)}
+              >
+                {onHover ? 'Unfollow' : 'Followed'}
+              </Button>
+            </ConditionalRender>
+          </Box>
           <Button
             fontSize={'sm'}
             colorScheme="facebook"

@@ -72,3 +72,32 @@ export const GET_USER = gql`
     }
   }
 `;
+
+export const FOLLOW = gql`
+  mutation Mutation($data: followPeopleInput!) {
+    followPeople(data: $data) {
+      id
+      createdAt
+      user {
+        id
+        userName
+        lastName
+        firstName
+      }
+    }
+  }
+`;
+
+export const UNFOLLOW = gql`
+  mutation Mutation($data: followPeopleInput!) {
+    unFollow(data: $data) {
+      id
+      user {
+        id
+        lastName
+        firstName
+        userName
+      }
+    }
+  }
+`;

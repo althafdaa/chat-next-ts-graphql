@@ -4,7 +4,7 @@ import { GET_MESSAGE } from '@/client/graphquery/query';
 import ChatBubble from '@/components/General/ChatBubble';
 import prisma from '@/server/db/client';
 import { useMutation, useQuery } from '@apollo/client';
-import { Box, Button, FormControl, Input, Textarea } from '@chakra-ui/react';
+import { Box, Button, FormControl, Textarea } from '@chakra-ui/react';
 import { FormikHelpers, useFormik } from 'formik';
 import { addApolloState, initializeApollo } from 'lib/apollo';
 import type { GetServerSidePropsContext, NextPage } from 'next';

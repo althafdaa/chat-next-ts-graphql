@@ -43,15 +43,20 @@ export const getUserByUsername: FieldResolver<
       where: { followerId: user.id },
     });
 
-    let isFollowed = false;
+    const searchedFollowers = await ctx.prisma.follow.findMany({
+      where: { followingId: user.id },
+    });
 
-    const followed = followings.find((item) => {
+    const isFollowed = searchedFollowers.some((item) => {
       return item.followerId.includes(userId);
     });
 
-    if (followed) isFollowed = true;
-
-    return { ...user, followings, followed: isFollowed };
+    return {
+      ...user,
+      followings,
+      followers: searchedFollowers,
+      followed: isFollowed,
+    };
   }
 
   return null;
