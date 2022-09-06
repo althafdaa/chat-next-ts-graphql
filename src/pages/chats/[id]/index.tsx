@@ -66,11 +66,14 @@ interface MessageBetweenUser {
 const ChatPage: NextPage<ChatPagePropsType> = ({ id }) => {
   const { data, refetch } = useQuery<MessageBetweenUser>(GET_MESSAGE, {
     variables: { data: { receiverId: id } },
+    pollInterval: 1000,
   });
 
   const { msgBetweenUser } = data || {};
 
-  const [sendMessage] = useMutation(SEND_MESSAGE);
+  const [sendMessage] = useMutation(SEND_MESSAGE, {
+    notifyOnNetworkStatusChange: true,
+  });
   const handleSubmit = async (
     values: ChatFormikType,
     action: FormikHelpers<any>
@@ -144,6 +147,7 @@ const ChatPage: NextPage<ChatPagePropsType> = ({ id }) => {
             bg="gray.100"
             placeholder="Chats"
             maxW={'420px'}
+            onFocus={() => refetch()}
           />
           <Button
             type="submit"
