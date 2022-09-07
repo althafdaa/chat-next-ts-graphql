@@ -1,131 +1,74 @@
-# Create T3 App
+# Fullstack Realtime Chatting App GraphQL
 
-This is an app bootstrapped according to the [init.tips](https://init.tips) stack, also known as the T3-Stack.
+Clone the repository
+Open up terminal with the repository local directory
 
-## Why are there `.js` files in here?
+```
+npm install
+```
 
-As per [T3-Axiom #3](https://github.com/t3-oss/create-t3-app/tree/next#3-typesafety-isnt-optional), we believe take typesafety as a first class citizen. Unfortunately, not all frameworks and plugins support TypeScript which means some of the configuration files have to be `.js` files.
+```
+npm run dev
+```
 
-We try to emphasize that these files are javascript for a reason, by explicitly declaring its type (`cjs` or `mjs`) depending on what's supported by the library it is used by. Also, all the `js` files in this project are still typechecked using a `@ts-check` comment at the top.
+# About The Project
 
-## What's next? How do I make an app with this?
+**LIVE:** [https://chat-ts-graphql.vercel.app/](https://chat-ts-graphql.vercel.app/)
 
-We try to keep this project as simple as possible, so you can start with the most basic configuration and then move on to more advanced configuration.
+This is my personal project solely to keep myself updated with the current technologies especially in the Frontend. Most of the stack here is something that i barely use. With this project i am trying to learn Typescript and GraphQL by building my own backend. This is a realtime chatting app mimicking real world application.
+Chats/Communication feature is a feature that most of us use from daily basis, corporate customer service, and whole chat app like Whatsapp or Discord, this is al so my first step and i learned **ALOT** about GraphQL and Typescript.
+GraphQL is something that i think i will master soon since so many people talked about and bunch of company used! Such as google even though GraphQL is founded and maintained by Facebook/Meta one of their big tech competitor use it as one of their stack, that could only mean there's something amazing in GraphQL. Also after working as Software Engineer myself i started to understand why GraphQL is so popular.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+The project itself is bootstrapped by [Create T3 App](https://github.com/t3-oss/create-t3-app)
 
-- [Next-Auth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [TailwindCSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io) (using @next version? [see v10 docs here](https://alpha.trpc.io))
+```
+npx install create-t3-app
+```
 
-## How do I deploy this?
+## Screenshot
 
-### Vercel
+![](./docs/1.png)
+![](./docs/2.png)
+Will add more later
 
-We recommend deploying to [Vercel](https://vercel.com/?utm_source=t3-oss&utm_campaign=oss). It makes it super easy to deploy NextJs apps.
+## Builth With
 
-- Push your code to a GitHub repository.
-- Go to [Vercel](https://vercel.com/?utm_source=t3-oss&utm_campaign=oss) and sign up with GitHub.
-- Create a Project and import the repository you pushed your code to.
-- Add your environment variables.
-- Click **Deploy**
-- Now whenever you push a change to your repository, Vercel will automatically redeploy your website!
+### The Base
 
-### Docker
+Bootstrapped with create-t3-app
 
-You can also dockerize this stack and deploy a container.
+- [Typescript](https://www.typescriptlang.org/)
+- [NextJs](https://nextjs.org/)
+- [GraphQL](https://graphql.org/)
 
-1. In your [next.config.mjs](./next.config.mjs), add the `output: "standalone"` option to your config.
-2. Create a `.dockerignore` file with the following contents:
-   <details>
-   <summary>.dockerignore</summary>
+### Server Side
 
-   ```
-   Dockerfile
-   .dockerignore
-   node_modules
-   npm-debug.log
-   README.md
-   .next
-   .git
-   ```
+- [Apollo](https://www.apollographql.com/docs/)
+- [Postgres SQL](https://www.postgresql.org/)
+- [Prisma ORM](https://www.prisma.io/)
+- [GraphQL Nexus](https://nexusjs.org/)
+- [Railway](https://railway.app/) to host the database
+- [Vercel](https://vercel.com/dashboard) to host the repo
 
-  </details>
+### The CSS Component
 
-3. Create a `Dockerfile` with the following contents:
-   <details>
-   <summary>Dockerfile</summary>
+- [Chakra UI](https://chakra-ui.com/)
 
-   ```Dockerfile
-   # Install dependencies only when needed
-   FROM node:16-alpine AS deps
-   # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-   RUN apk add --no-cache libc6-compat
-   WORKDIR /app
+### The Supporter
 
-   # Install dependencies based on the preferred package manager
-   COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-   RUN \
-      if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-      elif [ -f package-lock.json ]; then npm ci; \
-      elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i; \
-      else echo "Lockfile not found." && exit 1; \
-      fi
+- [Yup](https://github.com/jquense/yup) - my go to object schema validation
+- [nookies](https://github.com/maticzav/nookies) - the best library that helped NextJs handle cookies and token from Frontend to Backend
 
+## Feature
 
-   # Rebuild the source code only when needed
-   FROM node:16-alpine AS builder
-   WORKDIR /app
-   COPY --from=deps /app/node_modules ./node_modules
-   COPY . .
+- Login/Register Feature
+- Update Profile
+- Change Password
+- SSR Protected routes
+- Follow/Unfollow features
+- Searching for other people by username
+- Realtime chatting with difference users
 
-   # Next.js collects completely anonymous telemetry data about general usage.
-   # Learn more here: https://nextjs.org/telemetry
-   # Uncomment the following line in case you want to disable telemetry during the build.
-   # ENV NEXT_TELEMETRY_DISABLED 1
+## What I Learned
 
-   RUN yarn build
-
-   # If using npm comment out above and use below instead
-   # RUN npm run build
-
-   # Production image, copy all the files and run next
-   FROM node:16-alpine AS runner
-   WORKDIR /app
-
-   ENV NODE_ENV production
-   # Uncomment the following line in case you want to disable telemetry during runtime.
-   # ENV NEXT_TELEMETRY_DISABLED 1
-
-   RUN addgroup --system --gid 1001 nodejs
-   RUN adduser --system --uid 1001 nextjs
-
-   # You only need to copy next.config.js if you are NOT using the default configuration
-   # COPY --from=builder /app/next.config.js ./
-   COPY --from=builder /app/public ./public
-   COPY --from=builder /app/package.json ./package.json
-
-   # Automatically leverage output traces to reduce image size
-   # https://nextjs.org/docs/advanced-features/output-file-tracing
-   COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-   COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
-   USER nextjs
-
-   EXPOSE 3000
-
-   ENV PORT 3000
-
-   CMD ["node", "server.js"]
-   ```
-
-  </details>
-
-4. You can now build an image to deploy yourself, or use a PaaS such as [Railway's](https://railway.app) automated [Dockerfile deployments](https://docs.railway.app/deploy/dockerfiles) to deploy your app.
-
-## Useful resources
-
-Here are some resources that we commonly refer to:
-
-- [Protecting routes with Next-Auth.js](https://next-auth.js.org/configuration/nextjs#unstable_getserversession)
+Backend development is hard but is also interesting, the way i need to think a lot about table/database relationship and how these data is interacting with each other really take my time learning about SQL. I am always thinking that its impossible for me to do backend code but its actually kinda fun and i enjoyed it especially with GraphQL and Typescript i think my learning curve is way steeper. I haven't met with crazy custom SQL language so Prisma pretty much handle evertyhing for me. Also typesafety coming from all these package (Typescript, Prisma, GraphQL Nexus) giving so much better DX and helped me a lot with the development even tho i am pretty slow. My next i will do GrahpQL again but with Express/Nodejs. i will try to differentiate the repo between backend and Frontend!
