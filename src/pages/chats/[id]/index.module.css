@@ -1,0 +1,21 @@
+.chatbox::-webkit-scrollbar {
+  display: block;
+  width: 5px;
+  height: 5px;
+  border-radius: 8px;
+}
+
+.chatbox::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chatbox::-webkit-scrollbar-thumb {
+  background-color: rgb(150, 150, 150);
+  border-bottom: 100%;
+}
+
+.chatbox::-webkit-scrollbar-track-piece:end {
+  background: transparent;
+  margin: 10px 0;
+  margin-right: 10px;
+}

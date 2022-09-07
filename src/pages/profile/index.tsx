@@ -46,7 +46,7 @@ interface ProfileType {
   userName: string;
   followings: [FollowingUserType];
 }
-interface getProfileResponseType {
+export interface getProfileResponseType {
   UserById: ProfileType;
 }
 

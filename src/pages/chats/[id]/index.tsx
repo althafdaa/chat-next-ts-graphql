@@ -1,15 +1,25 @@
 import SendIcon from '@/assets/icons/SendIcon';
 import { SEND_MESSAGE } from '@/client/graphquery/mutation';
-import { GET_MESSAGE } from '@/client/graphquery/query';
+import { GET_MESSAGE, GET_PROFILE } from '@/client/graphquery/query';
 import ChatBubble from '@/components/General/ChatBubble';
 import prisma from '@/server/db/client';
 import { useMutation, useQuery } from '@apollo/client';
-import { Box, Button, FormControl, Textarea } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  FormControl,
+  Image,
+  Text,
+  Textarea,
+} from '@chakra-ui/react';
 import { FormikHelpers, useFormik } from 'formik';
 import { addApolloState, initializeApollo } from 'lib/apollo';
 import type { GetServerSidePropsContext, NextPage } from 'next';
 import Head from 'next/head';
 import nookies from 'nookies';
+import styles from './index.module.css';
+import PhotoPlaceholder from '@/assets/img/PhotoPlaceholder.png';
+import { getProfileResponseType } from '@/pages/profile';
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const { token } = nookies.get({ req: ctx.req });
@@ -29,6 +39,11 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   await apolloClient.query({
     query: GET_MESSAGE,
     variables: { data: { receiverId: id } },
+  });
+
+  await apolloClient.query({
+    query: GET_PROFILE,
+    variables: { data: { id } },
   });
 
   return addApolloState(apolloClient, {
@@ -68,6 +83,12 @@ const ChatPage: NextPage<ChatPagePropsType> = ({ id }) => {
     variables: { data: { receiverId: id } },
     pollInterval: 1000,
   });
+  const { data: profileData } = useQuery<getProfileResponseType>(GET_PROFILE, {
+    variables: { data: { id } },
+    notifyOnNetworkStatusChange: true,
+  });
+
+  const { UserById } = profileData || {};
 
   const { msgBetweenUser } = data || {};
 
@@ -103,18 +124,53 @@ const ChatPage: NextPage<ChatPagePropsType> = ({ id }) => {
       </Head>
 
       <Box
+        as="header"
         position={'absolute'}
         top="0"
-        bottom={'135px'}
+        minW={'100%'}
+        display="flex"
+        height="80px"
+      >
+        <Box
+          p={'1rem'}
+          bg="red"
+          minW={'100%'}
+          display="flex"
+          alignItems={'center'}
+          bgColor={'green.600'}
+          roundedBottom={'xl'}
+          boxShadow="xl"
+          gap="1rem"
+        >
+          <Image
+            rounded={'full'}
+            h="36px"
+            src={PhotoPlaceholder.src}
+            alt="user photo"
+          />
+          <Text color={'white'} fontWeight="700">
+            {UserById?.userName}
+          </Text>
+        </Box>
+      </Box>
+
+      <Box
+        as="main"
+        position={'absolute'}
+        bottom="135px"
         minWidth="100%"
         display="flex"
       >
         <Box
+          className={styles.chatbox}
           minH={'100%'}
           w={'100%'}
           display="flex"
+          pt={'1rem'}
           flexDir={'column-reverse'}
+          maxH="calc(100vh - 220px)"
           justifySelf="flex-end"
+          overflowY={'scroll'}
         >
           {msgBetweenUser?.map((item: MessageType, idx: number) => (
             <ChatBubble item={item} key={idx}>
