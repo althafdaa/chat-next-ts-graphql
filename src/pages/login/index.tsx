@@ -23,6 +23,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import nookies from 'nookies';
+import { Link as ChakraLink } from '@chakra-ui/react';
 
 interface FormikValuesType {
   userName: string;
@@ -182,9 +183,9 @@ const LoginPage: NextPage<LoginPageProps> = () => {
                 <Text fontSize={'xs'} as={'span'}>
                   Haven&apos;t registered yet ?{' '}
                   <Link href={'/register'}>
-                    <Text as={'span'} color="green.600" fontWeight={700}>
+                    <ChakraLink color="green.600" fontWeight={700}>
                       Join Us
-                    </Text>
+                    </ChakraLink>
                   </Link>
                 </Text>
               </VStack>

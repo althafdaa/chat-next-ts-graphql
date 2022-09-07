@@ -58,10 +58,10 @@ const SearchPage: NextPage = () => {
       await getUser({ variables: { data: { userName: values.userName } } });
       setShowInput(false);
     } catch (error) {
-      const err = parseErrorMsg(error as Error);
+      const errMsg = parseErrorMsg(error as Error);
       toast({
         status: 'error',
-        title: err,
+        title: errMsg,
         position: 'top-left',
         isClosable: true,
       });

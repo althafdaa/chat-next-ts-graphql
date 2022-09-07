@@ -1,7 +1,9 @@
 import ChevronIcon from '@/assets/icons/Chevronicon';
+import { UPDATE_PASSWORD } from '@/client/graphquery/mutation';
 import InputErrorMessage from '@/components/General/Form/InputErrorMessage';
 import Label from '@/components/General/Form/Label';
 import { parseErrorMsg, ResetPasswordSchema } from '@/utils/validation';
+import { useMutation } from '@apollo/client';
 import {
   Box,
   Button,
@@ -15,6 +17,7 @@ import { useFormik } from 'formik';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 interface ResetPasswordFormikType {
   newPassword: string;
@@ -23,10 +26,34 @@ interface ResetPasswordFormikType {
 }
 
 const ResetPasswordPage: NextPage = () => {
+  const [updatePassword] = useMutation(UPDATE_PASSWORD);
+  const router = useRouter();
   const toast = useToast();
-  const handleSubmit = (values: ResetPasswordFormikType) => {
+  const handleSubmit = async (values: ResetPasswordFormikType) => {
+    if (values.newPassword === values.password) {
+      return toast({
+        position: 'top-right',
+        title: `Warning`,
+        description: "Password can't be same",
+        status: 'warning',
+        duration: 1000,
+        isClosable: true,
+      });
+    }
+
     try {
-      console.log(values);
+      await updatePassword({ variables: { data: values } });
+
+      toast({
+        position: 'top-right',
+        title: `Login Success.`,
+        description: `Password Changed`,
+        status: 'success',
+        duration: 1000,
+        isClosable: true,
+      });
+
+      return router.push('/profile');
     } catch (error) {
       const errMsg = parseErrorMsg(error as Error);
       console.log(errMsg);

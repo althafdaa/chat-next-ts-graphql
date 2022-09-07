@@ -101,3 +101,12 @@ export const UNFOLLOW = gql`
     }
   }
 `;
+
+export const UPDATE_PASSWORD = gql`
+  mutation Mutation($data: updatePasswordPayload!) {
+    updatePassword(data: $data) {
+      updatedAt
+      message
+    }
+  }
+`;
