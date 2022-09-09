@@ -11,8 +11,8 @@ export default function Document() {
 
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://chat-ts-graphql.vercel.app/" />
-        <meta name="image" property="og:image" content="/favicon.png" />
-        <meta property="og:image:url" content="/favicon.png" />
+        <meta name="image" property="og:image" content="/logo.png" />
+        <meta property="og:image:url" content="/logo.png" />
         <meta property="og:title" content="ChatsQL – Fullstack Chat App" />
         <meta property="og:site_name" content="ChatsQL – Fullstack Chat App" />
         <meta
@@ -30,7 +30,7 @@ export default function Document() {
           name="twitter:description"
           content="Connect with each other through realtime connection"
         />
-        <meta name="twitter:image" content="/favicon.png" />
+        <meta name="twitter:image" content="/logo.png" />
       </Head>
       <body>
         <Main />
