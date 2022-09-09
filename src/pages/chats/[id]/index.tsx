@@ -204,6 +204,8 @@ const ChatPage: NextPage<ChatPagePropsType> = ({ id }) => {
             placeholder="Chats"
             maxW={'420px'}
             onFocus={() => refetch()}
+            onMouseEnter={() => refetch()}
+            onMouseLeave={() => refetch()}
           />
           <Button
             type="submit"
