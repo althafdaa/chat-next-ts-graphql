@@ -32,11 +32,14 @@ The project itself is bootstrapped by [Create T3 App](https://github.com/t3-oss/
 npx install create-t3-app
 ```
 
-## Screenshot
+## Screenshot & Preview
 
+https://user-images.githubusercontent.com/92288572/189355163-90afa054-39f1-4353-a5e8-576ca5b44098.mp4
 ![](./docs/1.png)
 ![](./docs/2.png)
-Will add more later
+![](./docs/3.png)
+![](./docs/4.png)
+![](./docs/5.png)
 
 ## Builth With
 
