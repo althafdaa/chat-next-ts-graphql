@@ -120,7 +120,7 @@ const ChatPage: NextPage<ChatPagePropsType> = ({ id }) => {
   return (
     <>
       <Head>
-        <title>Chat Room | Chat Graph</title>
+        <title>Chat Room | ChatsQL</title>
       </Head>
 
       <Box

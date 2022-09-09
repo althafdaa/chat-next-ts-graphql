@@ -87,7 +87,7 @@ const ResetPasswordPage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Reset Password | Chat Graph</title>
+        <title>Reset Password | ChatsQL</title>
       </Head>
 
       <Box

@@ -108,7 +108,7 @@ const LoginPage: NextPage<LoginPageProps> = () => {
       alignItems={'center'}
     >
       <Head>
-        <title>Login | Chat Graph</title>
+        <title>Login | ChatsQL</title>
       </Head>
 
       <Box

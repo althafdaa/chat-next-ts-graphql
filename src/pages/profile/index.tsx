@@ -172,7 +172,7 @@ const ProfilePage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Profile | Chat App</title>
+        <title>Profile | ChatsQL</title>
       </Head>
 
       <Box
