@@ -84,7 +84,7 @@ const SearchPage: NextPage = () => {
       alignItems={'center'}
     >
       <Head>
-        <title>Chats | Chat Graph</title>
+        <title>Chats | ChatsQL</title>
       </Head>
 
       <Box

@@ -110,7 +110,7 @@ const RegisterPage: NextPage<RegisterPageProps> = ({ token }) => {
   return (
     <Box minH="100vh" w={'100%'} py="1rem" display={'flex'} as="main">
       <Head>
-        <title>Register | Chat Graph</title>
+        <title>Register | ChatsQL</title>
       </Head>
 
       <Box

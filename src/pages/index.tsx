@@ -30,7 +30,7 @@ const Home: NextPage<HomePageProps> = () => {
   return (
     <Box minH="100vh" w={'100%'} py="1rem" display={'flex'} as="main">
       <Head>
-        <title>Chat Grahph | Chat Graph</title>
+        <title>ChatsQL | Connect</title>
         <meta name="description" content="Created by @althafadaa" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
