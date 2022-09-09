@@ -13,7 +13,7 @@ npm run dev
 
 # About The Project
 
-**LIVE:** [https://chat-ts-graphql.vercel.app/](https://chat-ts-graphql.vercel.app/)
+**LIVE:** [https://chatsql.vercel.app/](https://chatsql.vercel.app/)
 
 This is my personal project solely to keep myself updated with the current technologies especially in the Frontend. Most of the stack here is something that i barely use. With this project i am trying to learn Typescript and GraphQL by building my own backend. This is a realtime chatting app mimicking real world application.
 <br />
