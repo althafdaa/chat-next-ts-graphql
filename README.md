@@ -35,6 +35,8 @@ npx install create-t3-app
 ## Screenshot & Preview
 
 [Video Preview Click Here](https://user-images.githubusercontent.com/92288572/189355163-90afa054-39f1-4353-a5e8-576ca5b44098.mp4)
+<br/>
+<br/>
 ![](./docs/1.png)
 ![](./docs/2.png)
 ![](./docs/3.png)
